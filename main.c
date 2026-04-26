@@ -15,7 +15,8 @@ int main() {
         printf("3. View parked vehicles\n");
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
-        printf("0. Exit and save data\n");
+        printf("6. Save data\n");
+        printf("0. Exit\n");
         printf("========================================\n");
         printf("Enter your choice: ");
         
@@ -41,8 +42,10 @@ int main() {
             case 5:
                 printf("5. View daily revenue report\n");
                 break;
-            case 0:
+            case 6:
                 printf("Saving data to file...\n");
+                break;
+            case 0:
                 printf("Exited the program.\n");
                 break;
             default:
