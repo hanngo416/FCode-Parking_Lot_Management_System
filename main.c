@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/types.h"
+#include "include/fileio.h"
+#include "include/report.h"
 
+Vehicle vehicles[MAX_VEHICLES];
+int vehicleCount = 0;
 
 int main() {
     int choice;
+
+    loadData();
 
     do {
         printf("\n========================================\n");
@@ -16,6 +22,7 @@ int main() {
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
         printf("6. Save data\n");
+        printf("7. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
         printf("Enter your choice: ");
@@ -40,12 +47,16 @@ int main() {
                 printf("4. Search vehicle by license plate\n");
                 break;
             case 5:
-                printf("5. View daily revenue report\n");
+                viewDailyRevenue();
                 break;
             case 6:
-                printf("Saving data to file...\n");
+                saveData();
+                break;
+            case 7:
+                exportRevenueReport();
                 break;
             case 0:
+                saveData();
                 printf("Exited the program.\n");
                 break;
             default:
