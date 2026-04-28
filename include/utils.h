@@ -20,8 +20,8 @@ int isValidVehicleType(int type);
 int isValidStatus(int status);
 
 int parseDateTime(const char *dateStr, time_t *result);
-int isValidEntryExitTime(time_t entryTime, time_t exitTime)
-int isValidEntryTime(time_t entryTime)
+int isValidEntryExitTime(time_t entryTime, time_t exitTime);
+int isValidEntryTime(time_t entryTime);
 int isValidUsername(const char *username);
 int isValidPassword(const char *password);
 #endif

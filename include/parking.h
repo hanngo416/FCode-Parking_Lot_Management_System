@@ -1,8 +1,8 @@
 #ifndef PARKING_H
 #define PARKING_H
 
-#include <time.h> 
-#include "include/types.h"
+#include <time.h>
+#include "types.h"
 
 typedef struct {
     Vehicle list[MAX_VEHICLES];

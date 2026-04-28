@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
-#include "include/billing.h"
-#include "include/types.h"
+#include "../include/billing.h"
+#include "../include/types.h"
 
 double calculateFee(Vehicle v) {
     double seconds = difftime(v.exitTime, v.entryTime);
