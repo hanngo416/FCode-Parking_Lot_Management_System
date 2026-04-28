@@ -1,7 +1,7 @@
 #ifndef BILLING_H
 #define BILLING_H
 
-#include "include/parking.h"
+#include "parking.h"
 
 double calculateFee(Vehicle v);
 void printBill(Vehicle v);

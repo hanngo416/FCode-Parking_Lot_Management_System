@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <time.h>
-#include "include/types.h"
-#include "include/parking.h"
-#include "include/billing.h"
+#include "../include/types.h"
+#include "../include/parking.h"
+#include "../include/billing.h"
 
 int myStrCmp(char *a, char *b) {
     int i = 0;
