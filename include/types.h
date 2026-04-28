@@ -4,6 +4,8 @@
 #include <time.h>
 
 #define MAX_VEHICLES 3636
+#define PARKING 0
+#define EXITED 1
 
 // Enum cho loại xe
 typedef enum {
