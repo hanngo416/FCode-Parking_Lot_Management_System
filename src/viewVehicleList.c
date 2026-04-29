@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../include/types.h" 
 
-extern Vehicle list[];       // Dùng extern để máy hiểu biến nằm ở main.c
+extern Vehicle list[];       
 extern int total_vehicles;
 
 #define MAX_SLOTS 3636
@@ -11,7 +11,7 @@ extern int total_vehicles;
 void loadData() {
     FILE *f = fopen("data/input.txt", "r"); 
     if (f == NULL) {
-        printf("Khong tim thay file du lieu!\n");
+        printf("Error!\n");
         return;
     }
     total_vehicles = 0; 
