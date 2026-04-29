@@ -62,7 +62,7 @@ void viewList() {
     printf("------------------------------------------------------------------\n");
     float ratio = (float)(count_in_yard * 100) / MAX_SLOTS;
     if (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
-    else if (ratio < 80) printf("\033[1;33mTrang thai: %.2f%% Normal \033[0m\n", ratio);
-    else if (ratio < 100) printf("\033[1;31mTrang thai: %.2f%% Nearly full \033[0m\n", ratio);
-    else printf("\033[1;31mTrang thai: %.2f%% Full \033[0m\n", ratio);
+    else if (ratio < 80) printf("\033[1;33mStatus: %.2f%% Normal \033[0m\n", ratio);
+    else if (ratio < 100) printf("\033[1;31mStatus: %.2f%% Nearly full \033[0m\n", ratio);
+    else printf("\033[1;31mStatus: %.2f%% Full \033[0m\n", ratio);
 }
