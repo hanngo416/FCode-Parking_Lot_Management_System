@@ -43,7 +43,7 @@ int main() {
                 listVehicles(&parkingLot);
                 break;
             case 4:
-                printf("Search vehicle by license plate.\n");
+                searchVehicle(&parkingLot);
                 break;
             case 5:
                 printf("View daily revenue report.\n");
