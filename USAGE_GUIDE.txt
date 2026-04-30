@@ -1,0 +1,108 @@
+ CÁC HÀM TIỆN ÍCH QUAN TRỌNG
+File: src/utils.c
+Header: include/utils.h
+
+5.1 getString(messageInfo, buffer, maxLen)
+- Dùng để nhập chuỗi an toàn từ người dùng.
+- Cách dùng:
+    char plate[20];
+    getString("Enter license plate: ", plate, sizeof(plate));
+- Hàm gọi fgets(), xóa newline và nếu chuỗi rỗng sẽ yêu cầu nhập lại.
+- Thích hợp cho tên, biển số, mật khẩu, các input text.
+
+5.2 getInt(messageInfo, messageErrorOutOfRange, messageErrorNumber, min, max)
+- Dùng để nhập số nguyên với kiểm tra hợp lệ.
+- Cách dùng:
+    int type = getInt("Vehicle type (0-2): ",
+                     "Value must be between 0 and 2.",
+                     "Please enter a valid number.",
+                     0, 2);
+- Hàm dùng fgets() + sscanf() để tránh crash khi người dùng nhập chữ.
+- Nếu nhập sai, hàm sẽ in lỗi và nhắc nhập lại.
+
+5.3 getIntUpdate(messageInfo, messageErrorOutOfRange, messageErrorNumber, min, max, oldValue)
+- Dùng khi muốn cập nhật giá trị và giữ giá trị cũ nếu người dùng nhấn Enter.
+- Cách dùng:
+    int newType = getIntUpdate("New type [0-2]: ",
+                               "Type must be 0-2.",
+                               "Enter a valid number.",
+                               0, 2, oldType);
+- Nếu người dùng nhập chuỗi rỗng, hàm trả về oldValue.
+
+5.4 getDouble(messageInfo, messageError, min)
+- Dùng để nhập số thực.
+- Cách dùng:
+    double price = getDouble("Enter price: ", "Invalid number.", 0.0);
+- Hàm kiểm tra định dạng và giới hạn nhỏ nhất.
+
+5.5 getStringUpdate(messageInfo, buffer, maxLen, oldValue)
+- Dùng khi muốn cập nhật chuỗi nhưng giữ giá trị cũ khi để trống.
+- Cách dùng:
+    getStringUpdate("Enter new plate: ", plate, sizeof(plate), oldPlate);
+- Nếu người dùng để trống, buffer sẽ giữ oldValue.
+
+5.6 toUpperCase(str)
+- Biến chuỗi thành in hoa, dùng khi so sánh không phân biệt hoa/thường.
+- Cách dùng:
+    toUpperCase(plate);
+
+5.7 isEmpty(str)
+- Trả về 1 nếu chuỗi NULL hoặc rỗng.
+- Dùng để kiểm tra input trước khi xử lý.
+
+5.8 isValidLicensePlate(plate)
+- Kiểm tra định dạng biển số cơ bản.
+- Định nghĩa hiện tại trong utils.c yêu cầu:
+  + Không rỗng
+  + Độ dài 10 ký tự
+  + 2 chữ số đầu
+  + 2 chữ cái tiếp theo
+  + dấu '-' ở vị trí 5
+  + 5 chữ số cuối
+- Cách dùng:
+    if (!isValidLicensePlate(plate)) {
+        printf("Invalid license plate!\n");
+        return;
+    }
+
+5.9 isDuplicateLicensePlate(vehicles, count, plate)
+- Kiểm tra biển số trùng với xe đang đỗ trong danh sách.
+- Dùng trong addVehicle() để tránh thêm trùng.
+- Trả về 1 nếu tìm thấy, 0 nếu không.
+
+5.10 isValidVehicleType(type)
+- Dùng để xác nhận loại xe hợp lệ.
+- Trả về 1 nếu type == 0 || type == 1 || type == 2.
+
+5.11 isValidStatus(status)
+- Dùng để kiểm tra trạng thái xe.
+- Trả về 1 nếu status == 0 || status == 1.
+
+5.12 parseDateTime(dateStr, result)
+- Dùng để chuyển chuỗi ngày giờ thành time_t.
+- Cách dùng:
+    time_t t;
+    if (!parseDateTime("27/04/2026 08:30", &t)) {
+        printf("Invalid date/time.\n");
+    }
+- Hàm kiểm tra định dạng và giá trị hợp lệ.
+
+5.13 isValidEntryTime(entryTime)
+- Dùng để xác nhận thời gian nhập hợp lệ.
+- Trả về 1 nếu entryTime > 0.
+
+5.14 isValidEntryExitTime(entryTime, exitTime)
+- Dùng để kiểm tra thời gian ra lớn hơn thời gian vào.
+- Trả về 1 nếu entryTime > 0 và exitTime > entryTime.
+
+5.15 isValidUsername(username)
+- Dùng để kiểm tra tên đăng nhập hợp lệ.
+- Yêu cầu từ 2 đến 25 ký tự, chỉ gồm chữ và số.
+
+5.16 isValidPassword(password)
+- Dùng để kiểm tra mật khẩu hợp lệ.
+- Yêu cầu:
+  + Tối thiểu 8 ký tự
+  + Có ký tự hoa
+  + Có ký tự đặc biệt (không phải chữ hoặc số)
+

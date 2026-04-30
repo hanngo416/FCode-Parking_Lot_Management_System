@@ -1,45 +1,49 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-#include "../include/types.h" 
+#include "../include/parking.h"
+#include "../include/utils.h"
 
-extern Vehicle list[];
-extern int total_vehicles;
-
-void searchVehicle() {
+void searchVehicle(ParkingLot *p) {
     char key[15];
     int found = 0;
-    printf("\n\033[1;4;36m======= TIM KIEM BIEN SO =======\033[0m\n");
-    printf("Nhap ky tu can tim >> ");
-    scanf("%s", key);
 
-    printf("\n\033[1;37m%-5s | %-15s | %-10s | %-25s | %-12s\033[0m\n", 
-           "STT", "BIEN SO", "LOAI XE", "GIO VAO", "TRANG THAI");
+    printf("\n======= SEARCH VEHICLE =======\n");
+    getString("Enter license plate keyword: ", key, sizeof(key));
+
+    printf("\n%-5s | %-15s | %-10s | %-25s | %s\n",
+           "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME", "STATUS");
     printf("------------------------------------------------------------------------------------------\n");
 
-    for (int i = 0; i < total_vehicles; i++) {
-        if (strstr(list[i].licensePlate, key) != NULL) {
+    for (int i = 0; i < p->count; i++) {
+        if (strstr(p->list[i].licensePlate, key) != NULL) {
             found++;
             
-            char *typeStr;
-            if (list[i].type == MOTO) typeStr = "Xe may";
-            else if (list[i].type == CAR) typeStr = "O to";
-            else if (list[i].type == BUS) typeStr = "Xe buyt";
-            else typeStr = "Khac";
-            
+            const char *typeStr;
+            if (p->list[i].type == MOTO) typeStr = "Motorbike";
+            else if (p->list[i].type == CAR) typeStr = "Car";
+            else if (p->list[i].type == BUS) typeStr = "Bus";
+            else typeStr = "Other";
+
             char timeStr[26];
-            char *rawTime = ctime(&list[i].entryTime);
+            char *rawTime = ctime(&p->list[i].entryTime);
             if (rawTime != NULL) {
-                for(int j = 0; j < 24; j++) timeStr[j] = rawTime[j];
+                strncpy(timeStr, rawTime, 24);
                 timeStr[24] = '\0';
             } else {
                 strcpy(timeStr, "N/A");
             }
 
-            printf("%-5d | %-15s | %-10s | %-25s | %s\n", 
-                   found, list[i].licensePlate, typeStr, timeStr,
-                   (list[i].status == 0 ? "\033[1;32mTrong bai\033[0m" : "\033[1;31mDa ra\033[0m"));
+            printf("%-5d | %-15s | %-10s | %-25s | %s\n",
+                   found,
+                   p->list[i].licensePlate,
+                   typeStr,
+                   timeStr,
+                   (p->list[i].status == PARKING ? "Currently parked" : "Already exited"));
         }
     }
-    if (found == 0) printf("\033[1;31m[LOI] Khong tim thay xe!\033[0m\n");
+
+    if (found == 0) {
+        printf("No vehicle found matching '%s'.\n", key);
+    }
 }
