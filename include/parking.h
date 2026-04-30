@@ -12,5 +12,7 @@ typedef struct {
 void initParkingLot(ParkingLot *p);
 void addVehicle(ParkingLot *p);
 void removeVehicle(ParkingLot *p);
+void listVehicles(ParkingLot *p);
+void searchVehicle(ParkingLot *p);
 
 #endif

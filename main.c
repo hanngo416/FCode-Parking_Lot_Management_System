@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "include/types.h"
 #include "include/parking.h"
+#include "include/billing.h"
+#include "include/utils.h"
 
 int main() {
     ParkingLot parkingLot;
@@ -19,15 +21,16 @@ int main() {
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
         printf("6. Save data\n");
+        printf("7. Adjust prices [ADMIN]\n");
+        printf("8. Management [ADMIN]\n");
+        printf("9. Export daily report\n");
         printf("0. Exit\n");
         printf("========================================\n");
-        printf("Enter your choice: ");
-        
-        if (scanf("%d", &choice) != 1) {
-            while (getchar() != '\n');
-            printf("Invalid choice. Please enter a number!\n");
-            continue;
-        }
+
+        choice = getInt("Enter your choice: ",
+                        "Please enter a number from 0 to 9.",
+                        "Invalid input. Please enter a number.",
+                        0, 9);
 
         switch (choice) {
             case 1:
@@ -37,19 +40,28 @@ int main() {
                 removeVehicle(&parkingLot);
                 break;
             case 3:
-                printf("Feature not implemented yet: View parked vehicles.\n");
+                listVehicles(&parkingLot);
                 break;
             case 4:
-                printf("Feature not implemented yet: Search vehicle by license plate.\n");
+                printf("Search vehicle by license plate.\n");
                 break;
             case 5:
-                printf("Feature not implemented yet: View daily revenue report.\n");
+                printf("View daily revenue report.\n");
                 break;
             case 6:
-                printf("Feature not implemented yet: Save data to file.\n");
+                printf("Save data.\n");
+                break;
+            case 7:
+                printf("Adjust prices [ADMIN].\n");
+                break;
+            case 8:
+                printf("Management [ADMIN].\n");
+                break;
+            case 9:
+                printf("Export daily report.\n");
                 break;
             case 0:
-                printf("Exited the program.\n");
+                printf("Exit the program.\n");
                 break;
             default:
                 printf("Invalid choice!\n");
