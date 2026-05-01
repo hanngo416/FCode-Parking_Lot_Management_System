@@ -8,6 +8,7 @@
 int main() {
     ParkingLot parkingLot;
     initParkingLot(&parkingLot);
+    loadData(&parkingLot);       //ham loadData em de day cho cai viewlist no chay nha
 
     int choice;
 
