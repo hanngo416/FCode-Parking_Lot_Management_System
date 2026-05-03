@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/types.h"
-#include "include/parking.h"
-#include "include/billing.h"
-#include "include/utils.h"
-#include "include/fileio.h"
-#include "include/report.h"
-
+#include "include/parking.h" 
+#include "include/fileio.h"  
+#include "include/report.h"  
 
 int main() {
-    int choice;
+    ParkingLot parkingLot;
+    initParkingLot(&parkingLot);
+    loadData(&parkingLot);       
 
-    loadData();
+    int choice;
 
     do {
         printf("\n========================================\n");
@@ -54,12 +53,6 @@ int main() {
                 saveData(&parkingLot);
                 break;
             case 7:
-                printf("Adjust prices [ADMIN].\n");
-                break;
-            case 8:
-                printf("Management [ADMIN].\n");
-                break;
-            case 9:
                 exportRevenueReport(&parkingLot);
                 break;
             case 0:

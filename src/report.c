@@ -40,7 +40,7 @@ void viewDailyRevenue(ParkingLot *p) {
     printf("----------------------------------------\n");
 
     for (i = 0; i < p->count; i++) {
-        if (p->list[i].status != EXITED) {
+        if (p->list[i].status != 1) {
             continue;
         }
 
@@ -95,7 +95,7 @@ void exportRevenueReport(ParkingLot *p) {
 
     int rowNum = 0;
     for (i = 0; i < p->count; i++) {
-        if (p->list[i].status != EXITED) {
+        if (p->list[i].status != 1) {
             continue;
         }
         if (!isSameDay(p->list[i].exitTime, now)) {
