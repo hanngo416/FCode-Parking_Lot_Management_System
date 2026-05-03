@@ -3,10 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include "../include/types.h"
+#include "../include/parking.h"
 #include "../include/report.h"
-
-extern Vehicle vehicles[MAX_VEHICLES];
-extern int vehicleCount;
 
 static const char* getVehicleTypeName(VehicleType type) {
     switch (type) {
@@ -27,7 +25,7 @@ static int isSameDay(time_t t1, time_t t2) {
     return (d1 == d2 && m1 == m2 && y1 == y2);
 }
 
-void viewDailyRevenue(void) {
+void viewDailyRevenue(ParkingLot *p) {
     time_t now = time(NULL);
     struct tm *today = localtime(&now);
     double totalRevenue = 0.0;
@@ -41,16 +39,16 @@ void viewDailyRevenue(void) {
            today->tm_mday, today->tm_mon + 1, today->tm_year + 1900);
     printf("----------------------------------------\n");
 
-    for (i = 0; i < vehicleCount; i++) {
-        if (vehicles[i].status != 1) {
+    for (i = 0; i < p->count; i++) {
+        if (p->list[i].status != EXITED) {
             continue;
         }
 
-        if (!isSameDay(vehicles[i].exitTime, now)) {
+        if (!isSameDay(p->list[i].exitTime, now)) {
             continue;
         }
 
-        totalRevenue += vehicles[i].fee;
+        totalRevenue += p->list[i].fee;
         totalVehiclesOut++;
     }
 
@@ -65,7 +63,7 @@ void viewDailyRevenue(void) {
     printf("========================================\n");
 }
 
-void exportRevenueReport(void) {
+void exportRevenueReport(ParkingLot *p) {
     time_t now = time(NULL);
     struct tm *today = localtime(&now);
     double totalRevenue = 0.0;
@@ -79,7 +77,6 @@ void exportRevenueReport(void) {
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
         printf("ERROR: Cannot create report file!\n");
-        printf("       Please check if 'data/' directory exists and is writable.\n");
         return;
     }
 
@@ -97,23 +94,23 @@ void exportRevenueReport(void) {
     fprintf(fp, "---------------------------------------------------\n");
 
     int rowNum = 0;
-    for (i = 0; i < vehicleCount; i++) {
-        if (vehicles[i].status != 1) {
+    for (i = 0; i < p->count; i++) {
+        if (p->list[i].status != EXITED) {
             continue;
         }
-        if (!isSameDay(vehicles[i].exitTime, now)) {
+        if (!isSameDay(p->list[i].exitTime, now)) {
             continue;
         }
 
         rowNum++;
-        totalRevenue += vehicles[i].fee;
+        totalRevenue += p->list[i].fee;
         totalVehiclesOut++;
 
         fprintf(fp, "%-5d %-15s %-14s %12.0f\n",
                 rowNum,
-                vehicles[i].licensePlate,
-                getVehicleTypeName(vehicles[i].type),
-                vehicles[i].fee);
+                p->list[i].licensePlate,
+                getVehicleTypeName(p->list[i].type),
+                p->list[i].fee);
     }
 
     if (totalVehiclesOut == 0) {

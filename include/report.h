@@ -1,8 +1,13 @@
 #ifndef REPORT_H
 #define REPORT_H
 
-void viewDailyRevenue(void);
+#include "parking.h"
 
-void exportRevenueReport(void);
+/*
+ * report.h - Module Revenue Statistics (Chuc nang 5 & 9)
+ */
+
+void viewDailyRevenue(ParkingLot *p);
+void exportRevenueReport(ParkingLot *p);
 
 #endif

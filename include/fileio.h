@@ -1,8 +1,9 @@
 #ifndef FILEIO_H
 #define FILEIO_H
 
-void loadData(void);
+#include "parking.h"
 
-void saveData(void);
+void loadData(ParkingLot *p);
+void saveData(ParkingLot *p);
 
 #endif

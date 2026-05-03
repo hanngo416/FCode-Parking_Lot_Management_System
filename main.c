@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/types.h"
+#include "include/parking.h"
+#include "include/billing.h"
+#include "include/utils.h"
 #include "include/fileio.h"
 #include "include/report.h"
 
-Vehicle vehicles[MAX_VEHICLES];
-int vehicleCount = 0;
 
 int main() {
     int choice;
@@ -47,17 +48,23 @@ int main() {
                 printf("4. Search vehicle by license plate\n");
                 break;
             case 5:
-                viewDailyRevenue();
+                viewDailyRevenue(&parkingLot);
                 break;
             case 6:
-                saveData();
+                saveData(&parkingLot);
                 break;
             case 7:
-                exportRevenueReport();
+                printf("Adjust prices [ADMIN].\n");
+                break;
+            case 8:
+                printf("Management [ADMIN].\n");
+                break;
+            case 9:
+                exportRevenueReport(&parkingLot);
                 break;
             case 0:
-                saveData();
-                printf("Exited the program.\n");
+                saveData(&parkingLot);
+                printf("Exit the program.\n");
                 break;
             default:
                 printf("Invalid choice!\n");
