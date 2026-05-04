@@ -10,30 +10,6 @@ void initParkingLot(ParkingLot *p) {
     p->count = 0;
 }
 
-void loadData(ParkingLot *p) { //tinh hinh la chua co file data, nen em de tam cai ham loadData de cai viewlist no chay duoc nha
-    FILE *f = fopen("data/parking_lot_data.txt", "r"); 
-    
-    if (f == NULL) {
-        printf("Error: Could not open data/parking_lot_data.txt\n");
-        return;
-    }
-
-    p->count = 0;
-    
-    while (fscanf(f, "%s %d %ld %d", 
-                  p->list[p->count].licensePlate, 
-                  (int *)&p->list[p->count].type, 
-                  (long *)&p->list[p->count].entryTime, 
-                  &p->list[p->count].status) != EOF) {
-        
-        p->count++;
-        
-        if (p->count >= MAX_VEHICLES) break; 
-    }
-
-    fclose(f);
-    printf("Successfully loaded %d records from parking_lot_data.txt.\n", p->count);
-}
 
 int findVehicleIndex(ParkingLot *p, const char *plate) {
     for (int i = 0; i < p->count; i++) {

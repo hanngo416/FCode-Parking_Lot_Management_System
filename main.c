@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/types.h"
-#include "include/parking.h"
-#include "include/billing.h"
-#include "include/utils.h"
+#include "include/parking.h" 
+#include "include/fileio.h"  
+#include "include/report.h"  
 
 int main() {
     ParkingLot parkingLot;
     initParkingLot(&parkingLot);
-    loadData(&parkingLot);       //ham loadData em de day cho cai viewlist no chay nha
+    loadData(&parkingLot);       
 
     int choice;
 
@@ -22,16 +22,16 @@ int main() {
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
         printf("6. Save data\n");
-        printf("7. Adjust prices [ADMIN]\n");
-        printf("8. Management [ADMIN]\n");
-        printf("9. Export daily report\n");
+        printf("7. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
-
-        choice = getInt("Enter your choice: ",
-                        "Please enter a number from 0 to 9.",
-                        "Invalid input. Please enter a number.",
-                        0, 9);
+        printf("Enter your choice: ");
+        
+        if (scanf("%d", &choice) != 1) {
+            while(getchar() != '\n');
+            printf("Invalid choice. Please enter a number!\n");
+            continue;
+        }
 
         switch (choice) {
             case 1:
@@ -47,21 +47,16 @@ int main() {
                 searchVehicle(&parkingLot);
                 break;
             case 5:
-                printf("View daily revenue report.\n");
+                viewDailyRevenue(&parkingLot);
                 break;
             case 6:
-                printf("Save data.\n");
+                saveData(&parkingLot);
                 break;
             case 7:
-                printf("Adjust prices [ADMIN].\n");
-                break;
-            case 8:
-                printf("Management [ADMIN].\n");
-                break;
-            case 9:
-                printf("Export daily report.\n");
+                exportRevenueReport(&parkingLot);
                 break;
             case 0:
+                saveData(&parkingLot);
                 printf("Exit the program.\n");
                 break;
             default:

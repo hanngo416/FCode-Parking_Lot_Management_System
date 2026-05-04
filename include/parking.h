@@ -10,7 +10,6 @@ typedef struct {
 } ParkingLot;
 
 int findVehicleIndex(ParkingLot *p, const char *plate); //update
-void loadData(ParkingLot *p); //update de chay, xoa sau khi co file loadData
 void initParkingLot(ParkingLot *p);
 void addVehicle(ParkingLot *p);
 void removeVehicle(ParkingLot *p);
