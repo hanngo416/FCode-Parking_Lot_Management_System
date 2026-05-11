@@ -3,7 +3,8 @@
 #include "include/types.h"
 #include "include/parking.h" 
 #include "include/fileio.h"  
-#include "include/report.h"  
+#include "include/report.h"
+#include "include/utils.h"  
 
 int main() {
     ParkingLot parkingLot;
@@ -22,16 +23,16 @@ int main() {
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
         printf("6. Save data\n");
-        printf("7. Export revenue report (.txt)\n");
+        printf("7. Edit price list by vehicle type\n");
+        printf("8. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
         printf("Enter your choice: ");
         
-        if (scanf("%d", &choice) != 1) {
-            while(getchar() != '\n');
-            printf("Invalid choice. Please enter a number!\n");
-            continue;
-        }
+        choice = getInt("Enter your choice: ",
+                        "Please enter a number from 0 to 8.",
+                        "Invalid input. Please enter a number.",
+                        0, 8);
 
         switch (choice) {
             case 1:
@@ -53,6 +54,9 @@ int main() {
                 saveData(&parkingLot);
                 break;
             case 7:
+                printf("Adjust price list by vehicle type.\n");
+                break;
+            case 8:
                 exportRevenueReport(&parkingLot);
                 break;
             case 0:
