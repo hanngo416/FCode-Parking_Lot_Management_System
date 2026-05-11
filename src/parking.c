@@ -64,7 +64,6 @@ void addVehicle(ParkingLot *p) {
     printf("Entry time: %s", ctime(&v->entryTime));
 }
 
-
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
@@ -108,25 +107,84 @@ void removeVehicle(ParkingLot *p) {
 }
 
 void listVehicles(ParkingLot *p) {
-    printf("\n--- VEHICLES IN PARKING ---\n");
-
-    int found = 0;
+    int count_in_yard = 0;
+    printf("\n\033[1;4;36m======= VEHICLE LIST =======\033[0m\n");
+    printf("\033[1;37m%-5s | %-15s | %-10s | %-25s\033[0m\n", "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
+    printf("----------------------------------------------------------------------\n");
 
     for (int i = 0; i < p->count; i++) {
-        if (p->list[i].status == PARKING) {
-            found = 1;
+        if (p->list[i].status == PARKING) { 
+            count_in_yard++;
 
-            printf("%d. %s | ", i + 1, p->list[i].licensePlate);
+            const char *typeStr;
+            if (p->list[i].type == MOTO) typeStr = "Motorbike";
+            else if (p->list[i].type == CAR) typeStr = "Car";
+            else if (p->list[i].type == BUS) typeStr = "Bus";
+            else typeStr = "Other";
 
-            if (p->list[i].type == MOTO) printf("Motorbike");
-            else if (p->list[i].type == CAR) printf("Car");
-            else printf("Bus");
+            char timeStr[26];
+            char *rawTime = ctime(&p->list[i].entryTime);
+            if (rawTime != NULL) {
+                strncpy(timeStr, rawTime, 24);
+                timeStr[24] = '\0';
+            } else {
+                strcpy(timeStr, "N/A");
+            }
 
-            printf(" | Entry: %s", ctime(&p->list[i].entryTime));
+            printf("%-5d | %-15s | %-10s | %-25s\n", count_in_yard, p->list[i].licensePlate, typeStr, timeStr);
         }
     }
 
-    if (!found) {
-        printf("No vehicles in parking.\n");
+    printf("----------------------------------------------------------------------\n");
+    
+    float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
+    if (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
+    else if (ratio < 80) printf("\033[1;33mStatus: %.2f%% Normal\033[0m\n", ratio);
+    else if (ratio < 100) printf("\033[1;31mStatus: %.2f%% Nearly full\033[0m\n", ratio);
+    else printf("\033[1;31mStatus: %.2f%% Full\033[0m\n", ratio);
+}
+
+
+void searchVehicle(ParkingLot *p) {
+    char key[15];
+    int found_count = 0;
+
+    printf("\n======= SEARCH VEHICLE =======\n");
+    getString("Enter license plate keyword: ", key, sizeof(key));
+
+    printf("\n%-5s | %-15s | %-10s | %-25s | %s\n", 
+           "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME", "STATUS");
+    printf("-------------------------------------------------------------------------------------\n");
+
+    for (int i = 0; i < p->count; i++) {
+        if (strstr(p->list[i].licensePlate, key) != NULL) {
+            found_count++;
+
+            const char *typeStr;
+            if (p->list[i].type == MOTO) typeStr = "Motorbike";
+            else if (p->list[i].type == CAR) typeStr = "Car";
+            else if (p->list[i].type == BUS) typeStr = "Bus";
+            else typeStr = "Other";
+
+            char timeStr[26];
+            char *rawTime = ctime(&p->list[i].entryTime);
+            if (rawTime != NULL) {
+                strncpy(timeStr, rawTime, 24);
+                timeStr[24] = '\0';
+            } else {
+                strcpy(timeStr, "N/A");
+            }
+
+            printf("%-5d | %-15s | %-10s | %-25s | %s\n",
+                   found_count,
+                   p->list[i].licensePlate,
+                   typeStr,
+                   timeStr,
+                   (p->list[i].status == PARKING ? "Currently parked" : "Already exited"));
+        }
+    }
+
+    if (found_count == 0) {
+        printf("No vehicle found matching '%s'.\n", key);
     }
 }
