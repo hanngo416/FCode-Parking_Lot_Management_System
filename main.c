@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/types.h"
-
+#include "include/parking.h" 
+#include "include/fileio.h"  
+#include "include/report.h"  
 
 int main() {
+    ParkingLot parkingLot;
+    initParkingLot(&parkingLot);
+    loadData(&parkingLot);       
+
     int choice;
 
     do {
@@ -16,6 +22,7 @@ int main() {
         printf("4. Search vehicle by license plate\n");
         printf("5. View daily revenue report\n");
         printf("6. Save data\n");
+        printf("7. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
         printf("Enter your choice: ");
@@ -28,25 +35,29 @@ int main() {
 
         switch (choice) {
             case 1:
-                printf("1. Add a vehicle\n");
+                addVehicle(&parkingLot);
                 break;
             case 2:
-                printf("2. Remove a vehicle\n");
+                removeVehicle(&parkingLot);
                 break;
             case 3:
-                printf("3. View parked vehicles\n");
+                listVehicles(&parkingLot);
                 break;
             case 4:
-                printf("4. Search vehicle by license plate\n");
+                searchVehicle(&parkingLot);
                 break;
             case 5:
-                printf("5. View daily revenue report\n");
+                viewDailyRevenue(&parkingLot);
                 break;
             case 6:
-                printf("Saving data to file...\n");
+                saveData(&parkingLot);
+                break;
+            case 7:
+                exportRevenueReport(&parkingLot);
                 break;
             case 0:
-                printf("Exited the program.\n");
+                saveData(&parkingLot);
+                printf("Exit the program.\n");
                 break;
             default:
                 printf("Invalid choice!\n");
