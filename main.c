@@ -25,13 +25,10 @@ int main() {
         printf("7. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
-        printf("Enter your choice: ");
-        
-        if (scanf("%d", &choice) != 1) {
-            while(getchar() != '\n');
-            printf("Invalid choice. Please enter a number!\n");
-            continue;
-        }
+        choice = getInt("Enter your choice: ",
+                      "Invalid choice! Please enter 0-7.",
+                      "Please enter a valid number.",
+                      0, 7);
 
         switch (choice) {
             case 1:
