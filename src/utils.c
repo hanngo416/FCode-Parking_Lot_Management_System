@@ -204,20 +204,20 @@ int isValidEntryExitTime(time_t entryTime, time_t exitTime) {
     return entryTime > 0 && exitTime > entryTime;
 }
 int isValidUsername(const char *username) {
-    int len;
-
     if (isEmpty(username)) {
+        printf("Error: Username cannot be empty.\n");
         return 0;
     }
 
-    len = strlen(username);
-
+    int len = strlen(username);
     if (len < 2 || len > 25) {
+        printf("Error: Username length must be between 2 and 25 characters.\n");
         return 0;
     }
 
     for (int i = 0; i < len; i++) {
-        if (!isalnum(username[i])) {
+        if (!isalnum((unsigned char)username[i])) {
+            printf("Error: Username can only contain letters and numbers.\n");
             return 0;
         }
     }
@@ -225,30 +225,31 @@ int isValidUsername(const char *username) {
     return 1;
 }
 int isValidPassword(const char *password) {
-    int len;
-    int hasUpper = 0;
-    int hasSpecial = 0;
-
     if (isEmpty(password)) {
+        printf("Error: Password cannot be empty.\n");
         return 0;
     }
 
-    len = strlen(password);
-
-    if (len < 8) {
+    int len = strlen(password);
+    if (len < 6 || len > 20) {
+        printf("Error: Password length must be between 6 and 20 characters.\n");
         return 0;
     }
 
+    int hasUpper = 0, hasLower = 0, hasDigit = 0;
     for (int i = 0; i < len; i++) {
-        if (isupper(password[i])) {
-            hasUpper = 1;
-        }
-
-        if (!isalnum(password[i])) {
-            hasSpecial = 1;
-        }
+        unsigned char c = (unsigned char)password[i];
+        if (isupper(c)) hasUpper = 1;
+        if (islower(c)) hasLower = 1;
+        if (isdigit(c)) hasDigit = 1;
     }
 
-    return hasUpper && hasSpecial;
+    int valid = 1;
+    if (!hasUpper || !hasLower || !hasDigit ) {
+        printf("Invalid! Password must contain at least one uppercase letter, one lowercase letter and one digit.\n");
+        valid = 0;
+    }
+
+    return valid;
 }
 //trong quá trình làm nếu cần thêm hàm validate nào thì nhắn c 
