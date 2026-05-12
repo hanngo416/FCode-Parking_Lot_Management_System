@@ -108,9 +108,9 @@ void removeVehicle(ParkingLot *p) {
 
 void listVehicles(ParkingLot *p) {
     int count_in_yard = 0;
-    printf("\n\033[1;4;36m======= VEHICLE LIST =======\033[0m\n");
-    printf("\033[1;37m%-5s | %-15s | %-10s | %-25s\033[0m\n", "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
-    printf("----------------------------------------------------------------------\n");
+    printf(LINE "===================== " TITLE "VEHICLE LIST" RESET LINE " =====================" RESET "\n");
+    printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
+    printf(LINE "----------------------------------------------------------------------\n");
 
     for (int i = 0; i < p->count; i++) {
         if (p->list[i].status == PARKING) { 
@@ -131,17 +131,29 @@ void listVehicles(ParkingLot *p) {
                 strcpy(timeStr, "N/A");
             }
 
-            printf("%-5d | %-15s | %-10s | %-25s\n", count_in_yard, p->list[i].licensePlate, typeStr, timeStr);
+            printf(RESET "%-5d | %-15s | %-15s | %-25s\n", count_in_yard, p->list[i].licensePlate, typeStr, timeStr);
         }
     }
 
-    printf("----------------------------------------------------------------------\n");
+    printf(LINE "----------------------------------------------------------------------\n");
     
     float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
-    if (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
-    else if (ratio < 80) printf("\033[1;33mStatus: %.2f%% Normal\033[0m\n", ratio);
-    else if (ratio < 100) printf("\033[1;31mStatus: %.2f%% Nearly full\033[0m\n", ratio);
-    else printf("\033[1;31mStatus: %.2f%% Full\033[0m\n", ratio);
+    if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
+    else if (ratio < 80) 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
+    }
+    else if (ratio < 100) 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
+    }
+    else 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
+    }
 }
 
 
@@ -149,11 +161,10 @@ void searchVehicle(ParkingLot *p) {
     char key[15];
     int found_count = 0;
 
-    printf("\n======= SEARCH VEHICLE =======\n");
+    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
-    printf("\n%-5s | %-15s | %-10s | %-25s | %s\n", 
-           "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME", "STATUS");
+    printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
     printf("-------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < p->count; i++) {
@@ -175,7 +186,7 @@ void searchVehicle(ParkingLot *p) {
                 strcpy(timeStr, "N/A");
             }
 
-            printf("%-5d | %-15s | %-10s | %-25s | %s\n",
+            printf(RESET "%-5d | %-15s | %-15s | %-25s | %s\n",
                    found_count,
                    p->list[i].licensePlate,
                    typeStr,
