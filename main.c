@@ -27,7 +27,6 @@ int main() {
         printf("8. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
-        printf("Enter your choice: ");
         
         choice = getInt("Enter your choice: ",
                         "Please enter a number from 0 to 8.",
@@ -51,7 +50,7 @@ int main() {
                 viewDailyRevenue(&parkingLot);
                 break;
             case 6:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Manual force save by User");                
                 break;
             case 7:
                 printf("Adjust price list by vehicle type.\n");
@@ -60,7 +59,7 @@ int main() {
                 exportRevenueReport(&parkingLot);
                 break;
             case 0:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Auto-save on system exit");
                 printf("Exit the program.\n");
                 break;
             default:
