@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "include/auth.h"
-#include "include/utils.h"
+#include "../include/auth.h"
+#include "../include/utils.h"
 
 void initDefaultAdmin(Account accounts[], int *accountCount) {
 
@@ -25,35 +25,33 @@ int login(Account accounts[], int accountCount) {
 
     printf("\n===== LOGIN =====\n");
 
-    getString("Enter username: ", username, sizeof(username));
-    getString("Enter password: ", password, sizeof(password));
+    int index = -1;
+    while (index == -1) {
+        getString("Enter username: ", username, sizeof(username));
 
-    for (int i = 0; i < accountCount; i++) {
+        
+        index = findAccountByUsername(accounts, accountCount, username);
 
-        if (strcmp(username, accounts[i].username) == 0) {
-
-            if (strcmp(password, accounts[i].password) == 0) {
-
-                printf("Login successfully!\n");
-
-                return i;
-
-            } else {
-
-                printf("Invalid password.\n");
-
-                return -1;
-            }
+        if (index == -1) {
+            printf("Error: Username '%s' not found. Please try again.\n", username);
         }
     }
 
-    printf("Account not found.\n");
+   
+    while (1) {
+        getString("Enter password: ", password, sizeof(password));
 
-    return -1;
+        if (strcmp(password, accounts[index].password) == 0) {
+            printf("Login successfully!\n");
+            return index;
+        } else {
+            printf("Error: Invalid password. Please try again.\n");
+        }
+    }
 }
 
 void printMenuByRole(int role) {
-
+ 
     printf("\n========================================\n");
     printf("       PARKING LOT MANAGEMENT\n");
     printf("========================================\n");
@@ -101,18 +99,19 @@ int checkPermission(int role, int choice) {
 
 void updateOwnAccount(Account accounts[], int accountCount, int currentIndex) {
 
-    char newUsername[30];
     char newPassword[30];
 
-    printf("\n===== UPDATE ACCOUNT =====\n");
+    printf("\n===== CHANGE PASSWORD =====\n");
+    printf("Current account: %s\n", accounts[currentIndex].username);
 
-    getString("Enter new username: ", newUsername, sizeof(newUsername));
-    getString("Enter new password: ", newPassword, sizeof(newPassword));
+    while (1) {
+        getString("Enter new password: ", newPassword, sizeof(newPassword));
+        if (isValidPassword(newPassword)) break;
+    }
 
-    strcpy(accounts[currentIndex].username, newUsername);
     strcpy(accounts[currentIndex].password, newPassword);
 
-    printf("Account updated successfully.\n");
+    printf("Password updated successfully.\n");
 }
 
 int findAccountByUsername(Account accounts[], int accountCount, char username[]) {
@@ -141,7 +140,10 @@ void createStaffAccount(Account accounts[], int *accountCount) {
 
     printf("\n===== CREATE STAFF ACCOUNT =====\n");
 
-    getString("Enter username: ", username, sizeof(username));
+    while (1) {
+        getString("Enter username: ", username, sizeof(username));
+        if (isValidUsername(username)) break;
+    }
 
     if (findAccountByUsername(accounts, *accountCount, username) != -1) {
 
@@ -150,7 +152,10 @@ void createStaffAccount(Account accounts[], int *accountCount) {
         return;
     }
 
-    getString("Enter password: ", password, sizeof(password));
+    while (1) {
+        getString("Enter password: ", password, sizeof(password));
+        if (isValidPassword(password)) break;
+    }
 
     strcpy(accounts[*accountCount].username, username);
     strcpy(accounts[*accountCount].password, password);
