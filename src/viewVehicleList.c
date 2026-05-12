@@ -41,7 +41,7 @@ void viewList() {
             count_in_yard++;
             
             char *typeStr;
-            if (list[i].type == MOTO) typeStr = "Motocycle";
+            if (list[i].type == MOTO) typeStr = "Motobike";
             else if (list[i].type == CAR) typeStr = "Car";
             else if (list[i].type == BUS) typeStr = "Bus";
             else typeStr = "Other";
