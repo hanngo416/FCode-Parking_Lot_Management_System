@@ -22,24 +22,7 @@ int main() {
     initDefaultAdmin(accounts, &accountCount);
 
     while (currentIndex == -1) {
-        printf("\n========== ACCOUNT MENU ==========\n");
-        printf("1. Login\n");
-        printf("0. Exit\n");
-
-        choice = getInt("Choose: ",
-                        "Please enter 0 or 1.",
-                        "Invalid input.",
-                        0, 1);
-
-        if (choice == 1) {
-            currentIndex = login(accounts, accountCount);
-        } 
-        else {
-            saveData(&parkingLot);
-            saveAccounts(accounts, accountCount);
-            printf("Exit program.\n");
-            return 0;
-        }
+        currentIndex = login(accounts, accountCount);
     }
 
     do {

@@ -8,13 +8,11 @@ void initDefaultAdmin(Account accounts[], int *accountCount) {
     if (*accountCount == 0) {
 
         strcpy(accounts[0].username, "admin");
-        strcpy(accounts[0].password, "Admin@123");
+        strcpy(accounts[0].password, "Admin123");
 
         accounts[0].role = ROLE_ADMIN;
 
         *accountCount = 1;
-
-        printf("Default admin account created.\n");
     }
 }
 
