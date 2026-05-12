@@ -50,7 +50,7 @@ void loadData(ParkingLot *p) {
     printf("========================================\n");
 }
 
-void saveData(ParkingLot *p) {
+void saveData(ParkingLot *p, const char *actionMsg) {
     FILE *fp = fopen(DATA_FILE, "w");
 
     if (fp == NULL) {
@@ -70,5 +70,6 @@ void saveData(ParkingLot *p) {
     }
 
     fclose(fp);
-    printf("System data saved successfully to %s. (%d records)\n", DATA_FILE, p->count);
+
+    printf("[System Sync] %s - Total: %d records saved to %s\n", actionMsg, p->count, DATA_FILE);
 }
