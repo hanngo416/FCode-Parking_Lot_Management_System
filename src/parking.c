@@ -38,6 +38,8 @@ void addVehicle(ParkingLot *p) {
     printf("\n--- ADD VEHICLE ---\n");
 
     getString("Enter license plate: ", plate, sizeof(plate));
+    toUpperCase(plate);
+
     if (!isValidLicensePlate(plate)) {
         printf("Invalid license plate! Format: SSCC-SSSS (S: number, C: letter)\n");
         return;
@@ -82,7 +84,13 @@ void removeVehicle(ParkingLot *p) {
     char plate[20];
 
     printf("\n--- CHECK OUT VEHICLE ---\n");
+    listVehicles(p);
+    if (p->count == 0) {
+         printf("No vehicles in parking lot.\n");
+         return;
+    }
     getString("Enter license plate: ", plate, sizeof(plate));
+    toUpperCase(plate);
 
     if (!isValidLicensePlate(plate)) {
         printf("Invalid license plate!\n");
@@ -111,17 +119,9 @@ void removeVehicle(ParkingLot *p) {
 
 void listVehicles(ParkingLot *p) {
     int count_in_yard = 0;
-<<<<<<< HEAD
-
-    printf("\n\033[1;4;36m======= VEHICLE LIST =======\033[0m\n");
-    printf("\033[1;37m%-5s | %-15s | %-12s | %-25s\033[0m\n",
-           "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
-    printf("----------------------------------------------------------------------\n");
-=======
     printf(LINE "===================== " TITLE "VEHICLE LIST" RESET LINE " =====================" RESET "\n");
     printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
     printf(LINE "----------------------------------------------------------------------\n");
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
 
     int i;
     for (i = 0; i < p->count; i++) {
@@ -143,17 +143,7 @@ void listVehicles(ParkingLot *p) {
                 strcpy(timeStr, "N/A");
             }
 
-<<<<<<< HEAD
-            printf("%-5d | %-15s | %-12s | %-25s\n",
-                   count_in_yard,
-                   p->list[i].licensePlate,
-                   typeStr,
-                   timeStr);
-        }
-    }
 
-    printf("----------------------------------------------------------------------\n");
-=======
             printf(RESET "%-5d | %-15s | %-15s | %-25s\n", count_in_yard, p->list[i].licensePlate, typeStr, timeStr);
         }
     }
@@ -177,16 +167,15 @@ void listVehicles(ParkingLot *p) {
         printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
         printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
     }
-}
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
+
 
     float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
     if      (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
     else if (ratio < 80)         printf("\033[1;33mStatus: %.2f%% Normal\033[0m\n",      ratio);
     else if (ratio < 100)        printf("\033[1;31mStatus: %.2f%% Nearly full\033[0m\n", ratio);
     else                         printf("\033[1;31mStatus: %.2f%% Full\033[0m\n",        ratio);
-}
 
+}
 void searchVehicle(ParkingLot *p) {
     char key[15];
     int found_count = 0;
@@ -194,12 +183,7 @@ void searchVehicle(ParkingLot *p) {
     printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
-<<<<<<< HEAD
-    printf("\n%-5s | %-15s | %-12s | %-25s | %s\n",
-           "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME", "STATUS");
-=======
     printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
     printf("-------------------------------------------------------------------------------------\n");
 
     int i;
@@ -222,11 +206,7 @@ void searchVehicle(ParkingLot *p) {
                 strcpy(timeStr, "N/A");
             }
 
-<<<<<<< HEAD
-            printf("%-5d | %-15s | %-12s | %-25s | %s\n",
-=======
             printf(RESET "%-5d | %-15s | %-15s | %-25s | %s\n",
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
                    found_count,
                    p->list[i].licensePlate,
                    typeStr,
@@ -237,10 +217,5 @@ void searchVehicle(ParkingLot *p) {
 
     if (found_count == 0)
         printf("No vehicle found matching '%s'.\n", key);
-<<<<<<< HEAD
-}
-=======
     }
-}
 
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
