@@ -252,4 +252,3 @@ int isValidPassword(const char *password) {
 
     return valid;
 }
-//trong quá trình làm nếu cần thêm hàm validate nào thì nhắn c 
