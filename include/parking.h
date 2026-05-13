@@ -7,9 +7,10 @@
 typedef struct {
     Vehicle list[MAX_VEHICLES];
     int count;
+    PriceConfig prices[MAX_TYPES];
 } ParkingLot;
 
-int findVehicleIndex(ParkingLot *p, const char *plate); //update
+int  findVehicleIndex(ParkingLot *p, const char *plate);
 void initParkingLot(ParkingLot *p);
 void addVehicle(ParkingLot *p);
 void removeVehicle(ParkingLot *p);

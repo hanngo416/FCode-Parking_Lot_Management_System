@@ -93,7 +93,8 @@ void getStringUpdate(const char *messageInfo,
     }
 }
 void toUpperCase(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
+	int i; 
+    for (i = 0; str[i] != '\0'; i++) {
         str[i] = toupper((unsigned char)str[i]);
     }
 }
@@ -120,8 +121,9 @@ int isValidLicensePlate(const char *plate) {
     if (plate[4] != '-') {
         return 0;
     }
-
-    for (int i = 5; i < 10; i++) {
+	
+	int i; 
+    for (i = 5; i < 10; i++) {
         if (!isdigit(plate[i])) {
             return 0;
         }
@@ -131,7 +133,8 @@ int isValidLicensePlate(const char *plate) {
 }
 
 int isDuplicateLicensePlate(Vehicle vehicles[], int count, const char *plate) {
-    for (int i = 0; i < count; i++) {
+	int i; 
+    for (i = 0; i < count; i++) {
         if (vehicles[i].status == 0 &&
             strcmp(vehicles[i].licensePlate, plate) == 0) {
             return 1;
@@ -216,7 +219,8 @@ int isValidUsername(const char *username) {
         return 0;
     }
 
-    for (int i = 0; i < len; i++) {
+	int i; 
+    for (i = 0; i < len; i++) {
         if (!isalnum(username[i])) {
             return 0;
         }
@@ -238,8 +242,9 @@ int isValidPassword(const char *password) {
     if (len < 8) {
         return 0;
     }
-
-    for (int i = 0; i < len; i++) {
+	
+	int i; 
+    for (i = 0; i < len; i++) {
         if (isupper(password[i])) {
             hasUpper = 1;
         }
@@ -251,4 +256,5 @@ int isValidPassword(const char *password) {
 
     return hasUpper && hasSpecial;
 }
+
 //trong quá trình làm nếu cần thêm hàm validate nào thì nhắn c 

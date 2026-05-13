@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "include/types.h"
-#include "include/parking.h" 
-#include "include/fileio.h"  
-#include "include/report.h"
-#include "include/utils.h"  
+#include "types.h"
+#include "parking.h"
+#include "billing.h"
+#include "fileio.h"
+#include "report.h"
+#include "utils.h"
 
 int main() {
     ParkingLot parkingLot;
@@ -27,13 +28,12 @@ int main() {
         printf("8. Export revenue report (.txt)\n");
         printf("0. Exit\n");
         printf("========================================\n");
-        printf("Enter your choice: ");
-        
-        choice = getInt("Enter your choice: ",
-                        "Please enter a number from 0 to 8.",
-                        "Invalid input. Please enter a number.",
-                        0, 8);
-
+       choice = getInt(
+            "Enter your choice: ",
+             "Please enter a number from 0 to 8.",
+             "Invalid input. Please enter a number.",
+              0, 8
+         );
         switch (choice) {
             case 1:
                 addVehicle(&parkingLot);
@@ -54,7 +54,7 @@ int main() {
                 saveData(&parkingLot);
                 break;
             case 7:
-                printf("Adjust price list by vehicle type.\n");
+                updatePrice(&parkingLot);
                 break;
             case 8:
                 exportRevenueReport(&parkingLot);

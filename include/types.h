@@ -4,15 +4,16 @@
 #include <time.h>
 
 #define MAX_VEHICLES 3636
+#define MAX_TYPES 3
 #define PARKING 0
 #define EXITED 1
 
-// Enum cho loại xe
 typedef enum {
     MOTO = 0,
-    CAR = 1,
-    BUS = 2
+    CAR  = 1,
+    BUS  = 2
 } VehicleType;
+
 typedef struct {
     char licensePlate[12];
     VehicleType type;
@@ -21,9 +22,11 @@ typedef struct {
     double fee;
     int status;
 } Vehicle;
+
 typedef struct {
     VehicleType type;
     char typeName[20];
+    double defaultPrice;
     double price;
 } PriceConfig;
 
