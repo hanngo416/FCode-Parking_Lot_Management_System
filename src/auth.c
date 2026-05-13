@@ -54,45 +54,26 @@ void printMenuByRole(int role) {
     printf("       PARKING LOT MANAGEMENT\n");
     printf("========================================\n");
 
-    printf("1. Add a vehicle\n");
-    printf("2. Remove a vehicle\n");
+    printf("1. Check in a vehicle\n");
+    printf("2. Check out a vehicle\n");
     printf("3. View parked vehicles\n");
-    printf("4. Search vehicle by license plate\n");
+    printf("4. Search a vehicle\n");
+    printf("5. Change my password\n");
 
     if (role == ROLE_ADMIN) {
-
-        printf("5. View daily revenue report\n");
-        printf("6. Save data\n");
-        printf("7. Edit price list by vehicle type\n");
-        printf("8. Export revenue report (.txt)\n");
-
-        printf("9. Change my username/password\n");
-        printf("10. Create staff account\n");
-        printf("11. Promote staff to admin\n");
-        printf("12. View account list\n");
+    printf("6. View daily report\n");
+    printf("7. Save data\n");
+    printf("8. Edit price list by vehicle type\n");
+    printf("9. Export revenue report (.txt)\n");
+    printf("10. Create staff account\n");
+    printf("11. Promote staff to admin\n");
+    printf("12. View account list\n");
+    printf("13. Delete vehicle permanently\n");
     }
 
     printf("0. Exit\n");
 
     printf("========================================\n");
-}
-
-int checkPermission(int role, int choice) {
-
-    if (role == ROLE_ADMIN) {
-        return 1;
-    }
-
-    if (role == ROLE_STAFF) {
-
-        if (choice >= 1 && choice <= 4) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    return 0;
 }
 
 void updateOwnAccount(Account accounts[], int accountCount, int currentIndex) {
@@ -186,7 +167,19 @@ void promoteToAdmin(Account accounts[], int accountCount) {
 
     printf("Account promoted to admin successfully.\n");
 }
+void listStaffAccount(Account accounts[], int accountCount) {
 
+    printf("\n===== STAFF ACCOUNT LIST =====\n");
+
+    int count = 1;
+    
+    for (int i = 0; i < accountCount; i++) {
+        if (accounts[i].role == ROLE_STAFF){
+            printf("%d. %s\n",count, accounts[i].username);
+            count++;
+        }
+    }
+}
 void listAccounts(Account accounts[], int accountCount) {
 
     printf("\n===== ACCOUNT LIST =====\n");
@@ -200,7 +193,7 @@ void listAccounts(Account accounts[], int accountCount) {
         } else {
             printf("Role: STAFF\n");
         }
-
+        printf("Password: %s\n", accounts[i].password);
         printf("------------------------\n");
     }
 }

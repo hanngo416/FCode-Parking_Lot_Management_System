@@ -67,7 +67,7 @@ void viewDailyRevenue(ParkingLot *p) {
 void exportRevenueReport(ParkingLot *p) {
     time_t now = time(NULL);
     struct tm *tm_ptr = localtime(&now);
-    struct tm today = *tm_ptr; // Copy to local struct
+    struct tm today = *tm_ptr;
     double totalRevenue = 0.0;
     int totalVehiclesOut = 0;
     char filename[50];

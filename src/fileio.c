@@ -73,3 +73,21 @@ void saveData(ParkingLot *p) {
     fclose(fp);
     printf("System data saved successfully to %s. (%d records)\n", DATA_FILE, p->count);
 }
+
+void logDeletedVehicle(const Vehicle *v) {
+    FILE *fp = fopen("data/deleted_vehicles.dat", "a");
+    if (fp == NULL) {
+        printf("ERROR: Cannot open deleted_vehicles.dat for logging!\n");
+        return;
+    }
+
+    fprintf(fp, "%s|%d|%lld|%lld|%.2f|%d\n",
+            v->licensePlate,
+            v->type,
+            (long long)v->entryTime,
+            (long long)v->exitTime,
+            v->fee,
+            v->status);
+
+    fclose(fp);
+}

@@ -38,14 +38,7 @@ int main() {
         choice = getInt("Choose: ",
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 12 : 4));
-
-        if (!checkPermission(role, choice)) {
-            if (choice != 0) {
-                printf("Access denied. Staff only can use options 1-4.\n");
-                continue;
-            }
-        }
+                        0, (role == ROLE_ADMIN ? 13 : 5));
 
         switch (choice) {
             case 1:
@@ -63,41 +56,42 @@ int main() {
             case 4:
                 searchVehicle(&parkingLot);
                 break;
-
             case 5: 
+                updateOwnAccount(accounts, accountCount, currentIndex);
+                saveAccounts(accounts, accountCount);
+                break;
+            case 6: 
                 viewDailyRevenue(&parkingLot);
                 break;
-
-            case 6: 
+            case 7: 
                 saveData(&parkingLot);
                 printf("Data saved successfully.\n");
                 break;
 
-            case 7: 
+            case 8: 
                 printf("Edit price list by vehicle type (Coming soon).\n");
                 break;
 
-            case 8: 
+            case 9: 
                 exportRevenueReport(&parkingLot);
                 break;
-
-            case 9: 
-                updateOwnAccount(accounts, accountCount, currentIndex);
-                saveAccounts(accounts, accountCount);
-                break;
-
             case 10:
                 createStaffAccount(accounts, &accountCount);
                 saveAccounts(accounts, accountCount);
                 break;
 
             case 11: 
+                listStaffAccount(accounts, accountCount);
                 promoteToAdmin(accounts, accountCount);
                 saveAccounts(accounts, accountCount);
                 break;
 
             case 12: 
                 listAccounts(accounts, accountCount);
+                break;
+
+            case 13:
+                deleteVehicle(&parkingLot);
                 break;
 
             case 0:
