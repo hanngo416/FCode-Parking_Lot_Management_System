@@ -7,31 +7,6 @@
 #include "../include/fileio.h"
 #include "../include/utils.h"
 
-/* Admin permanently delete a vehicle */
-void deleteVehicle(ParkingLot *p) {
-    char plate[20];
-    printf("\n--- DELETE VEHICLE (ADMIN) ---\n");
-    getString("Enter license plate: ", plate, sizeof(plate));
-    if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate!\n");
-        return;
-    }
-    int idx = findVehicleIndex(p, plate);
-    if (idx == -1) {
-        printf("Vehicle not found!\n");
-        return;
-    }
-    Vehicle *v = &p->list[idx];
-    // Log the deleted vehicle
-    logDeletedVehicle(v);
-    // Shift remaining vehicles left
-    for (int i = idx; i < p->count - 1; i++) {
-        p->list[i] = p->list[i + 1];
-    }
-    p->count--;
-    saveData(p);
-    printf("Vehicle permanently deleted and logged.\n");
-}
 
 void initParkingLot(ParkingLot *p) {
     p->count = 0;
@@ -94,7 +69,7 @@ void addVehicle(ParkingLot *p) {
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
-    printf("\n--- REMOVE VEHICLE ---\n");
+    printf("\n--- CHECK OUT VEHICLE ---\n");
     getString("Enter license plate: ", plate, sizeof(plate));
 
     if (!isValidLicensePlate(plate)) {
@@ -214,4 +189,26 @@ void searchVehicle(ParkingLot *p) {
     if (found_count == 0) {
         printf("No vehicle found matching '%s'.\n", key);
     }
+}
+void deleteVehicle(ParkingLot *p) {
+    char plate[20];
+    printf("\n--- DELETE VEHICLE ---\n");
+    getString("Enter license plate: ", plate, sizeof(plate));
+    if (!isValidLicensePlate(plate)) {
+        printf("Invalid license plate!\n");
+        return;
+    }
+    int idx = findVehicleIndex(p, plate);
+    if (idx == -1) {
+        printf("Vehicle not found!\n");
+        return;
+    }
+    Vehicle *v = &p->list[idx];
+    logDeletedVehicle(v);
+    for (int i = idx; i < p->count - 1; i++) {
+        p->list[i] = p->list[i + 1];
+    }
+    p->count--;
+    saveData(p);
+    printf("Vehicle permanently deleted.\n");
 }

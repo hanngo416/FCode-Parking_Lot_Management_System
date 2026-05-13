@@ -31,7 +31,7 @@ int login(Account accounts[], int accountCount) {
         index = findAccountByUsername(accounts, accountCount, username);
 
         if (index == -1) {
-            printf("Error: Username '%s' not found. Please try again.\n", username);
+            printf("Username '%s' not found. Please try again.\n", username);
         }
     }
 
@@ -43,7 +43,7 @@ int login(Account accounts[], int accountCount) {
             printf("Login successfully!\n");
             return index;
         } else {
-            printf("Error: Invalid password. Please try again.\n");
+            printf("Invalid password. Please try again.\n");
         }
     }
 }
@@ -52,7 +52,7 @@ void printMenuByRole(int role) {
  
     printf("\n========================================\n");
     printf("       PARKING LOT MANAGEMENT\n");
-    printf("========================================\n");
+    printf("==========================================\n");
 
     printf("1. Check in a vehicle\n");
     printf("2. Check out a vehicle\n");

@@ -28,7 +28,7 @@ int main() {
     do {
         int role = accounts[currentIndex].role;
 
-        printf("\n========== PARKING LOT MANAGEMENT ==========\n");
+        printf("\n========= PARKING LOT MANAGEMENT =========\n");
         printf("User: %s | Role: %s\n",
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
@@ -91,7 +91,7 @@ int main() {
                 break;
 
             case 13:
-                deleteVehicle(&parkingLot);
+                printf("Delete vehicle\n");
                 break;
 
             case 0:
