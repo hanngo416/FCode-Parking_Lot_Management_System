@@ -29,5 +29,9 @@ typedef struct {
     double defaultPrice;
     double price;
 } PriceConfig;
-
+typedef struct {
+    Vehicle list[MAX_VEHICLES]; 
+    int count;
+    PriceConfig prices[MAX_TYPES];
+} ParkingLot;
 #endif

@@ -13,6 +13,7 @@ typedef struct {
 int  findVehicleIndex(ParkingLot *p, const char *plate);
 void initParkingLot(ParkingLot *p);
 void addVehicle(ParkingLot *p);
+void showParkedVehicles(ParkingLot *p);
 void removeVehicle(ParkingLot *p);
 void listVehicles(ParkingLot *p);
 void searchVehicle(ParkingLot *p);

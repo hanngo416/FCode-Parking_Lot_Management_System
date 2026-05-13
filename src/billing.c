@@ -36,9 +36,9 @@ void printBill(Vehicle v) {
 
 void updatePrice(ParkingLot *p) {
     printf("\n===== UPDATE PRICE =====\n");
-    printf("1. Motorbike (current: %.0f VND/hr)\n", p->prices[MOTO].price);
-    printf("2. Car       (current: %.0f VND/hr)\n", p->prices[CAR].price);
-    printf("3. Bus       (current: %.0f VND/hr)\n", p->prices[BUS].price);
+    printf("1. Motorbike (current: %.0f VND/hour)\n", p->prices[MOTO].price);
+    printf("2. Car       (current: %.0f VND/hour)\n", p->prices[CAR].price);
+    printf("3. Bus       (current: %.0f VND/hour)\n", p->prices[BUS].price);
 
     int choice = getInt(
         "Choose type: ",

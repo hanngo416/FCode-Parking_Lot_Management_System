@@ -8,9 +8,9 @@
 
 void initParkingLot(ParkingLot *p) {
     p->count = 0;
-    p->prices[MOTO] = (PriceConfig){MOTO, "Motorbike", 2000,  2000};
-    p->prices[CAR]  = (PriceConfig){CAR,  "Car",       5000,  5000};
-    p->prices[BUS]  = (PriceConfig){BUS,  "Bus",       10000, 10000};
+    p->prices[0] = (PriceConfig){MOTO, "Motorbike", 2000, 2000};
+    p->prices[1] = (PriceConfig){CAR,  "Car",       5000, 5000};
+    p->prices[2] = (PriceConfig){BUS,  "Bus",      10000, 10000};
 }
 
 int findVehicleIndex(ParkingLot *p, const char *plate) {
