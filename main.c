@@ -53,7 +53,7 @@ int main() {
                 break;
 
             case 2:
-                removeVehicle(&parkingLot); 
+                removeVehicle(&parkingLot);
                 break;
 
             case 3:
@@ -63,18 +63,16 @@ int main() {
             case 4:
                 searchVehicle(&parkingLot);
                 break;
-
             case 5: 
                 viewDailyRevenue(&parkingLot);
                 break;
 
             case 6: 
-                saveData(&parkingLot);
-                printf("Data saved successfully.\n");
+                saveData(&parkingLot, "Manual force save by User");                
                 break;
 
             case 7: 
-                printf("Edit price list by vehicle type (Coming soon).\n");
+                printf("Edit price list by vehicle type.\n");
                 break;
 
             case 8: 
@@ -101,9 +99,9 @@ int main() {
                 break;
 
             case 0:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Auto-save on system exit");
                 saveAccounts(accounts, accountCount);
-                printf("Exit program.\n");
+                printf("Exit the program.\n");
                 break;
         }
 
