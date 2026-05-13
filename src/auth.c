@@ -66,7 +66,7 @@ void printMenuByRole(int role) {
     printf("8. Edit price list by vehicle type\n");
     printf("9. Export revenue report (.txt)\n");
     printf("10. Create staff account\n");
-    printf("11. Promote staff to admin\n");
+    printf("11. Change user's role\n");
     printf("12. View account list\n");
     printf("13. Delete vehicle permanently\n");
     }
@@ -146,11 +146,11 @@ void createStaffAccount(Account accounts[], int *accountCount) {
     printf("Staff account created successfully.\n");
 }
 
-void promoteToAdmin(Account accounts[], int accountCount) {
+void updateUserRole(Account accounts[], int accountCount) {
 
     char username[30];
 
-    printf("\n===== PROMOTE STAFF TO ADMIN =====\n");
+    printf("\n===== CHANGE USER ROLE =====\n");
 
     getString("Enter username: ", username, sizeof(username));
 
@@ -162,25 +162,31 @@ void promoteToAdmin(Account accounts[], int accountCount) {
 
         return;
     }
-
-    accounts[index].role = ROLE_ADMIN;
-
-    printf("Account promoted to admin successfully.\n");
-}
-void listStaffAccount(Account accounts[], int accountCount) {
-
-    printf("\n===== STAFF ACCOUNT LIST =====\n");
-
-    int count = 1;
-    
-    for (int i = 0; i < accountCount; i++) {
-        if (accounts[i].role == ROLE_STAFF){
-            printf("%d. %s\n",count, accounts[i].username);
-            count++;
-        }
+    if (accounts[index].role == ROLE_ADMIN) {
+        accounts[index].role = ROLE_STAFF;
+        printf("Account has been demoted to Staff.\n");
+    }else {
+      accounts[index].role = ROLE_ADMIN;
+      printf("Account has been promoted to Admin.\n");
     }
 }
 void listAccounts(Account accounts[], int accountCount) {
+
+    printf("\n===== ACCOUNT LIST =====\n");
+
+    for (int i = 0; i < accountCount; i++) {
+
+        printf("Username: %s\n", accounts[i].username);
+
+        if (accounts[i].role == ROLE_ADMIN) {
+            printf("Role: ADMIN\n");
+        } else {
+            printf("Role: STAFF\n");
+        }
+        printf("------------------------\n");
+    }
+}
+void listAccountsNPass(Account accounts[], int accountCount) {
 
     printf("\n===== ACCOUNT LIST =====\n");
 

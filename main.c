@@ -81,13 +81,13 @@ int main() {
                 break;
 
             case 11: 
-                listStaffAccount(accounts, accountCount);
-                promoteToAdmin(accounts, accountCount);
+                listAccounts(accounts, accountCount);
+                updateUserRole(accounts, accountCount);
                 saveAccounts(accounts, accountCount);
                 break;
 
             case 12: 
-                listAccounts(accounts, accountCount);
+                listAccountsNPass(accounts, accountCount);
                 break;
 
             case 13:
