@@ -4,8 +4,6 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o src/billing.o src/parking.o src/utils.o
-LINKOBJ  = main.o src/billing.o src/parking.o src/utils.o
 LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib" -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include"
 CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++"
@@ -35,3 +33,12 @@ src/parking.o: src/parking.c
 
 src/utils.o: src/utils.c
 	$(CC) -c src/utils.c -o src/utils.o $(CFLAGS)
+
+src/auth.o: src/auth.c
+	$(CC) -c src/auth.c -o src/auth.o $(CFLAGS)
+
+src/fileio.o: src/fileio.c
+	$(CC) -c src/fileio.c -o src/fileio.o $(CFLAGS)
+
+src/report.o: src/report.c
+	$(CC) -c src/report.c -o src/report.o $(CFLAGS)
