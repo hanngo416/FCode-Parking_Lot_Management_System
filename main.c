@@ -28,7 +28,7 @@ int main() {
     do {
         int role = accounts[currentIndex].role;
 
-        printf("\n========== PARKING LOT MANAGEMENT ==========\n");
+        printf("\n========= PARKING LOT MANAGEMENT =========\n");
         printf("User: %s | Role: %s\n",
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
@@ -38,14 +38,7 @@ int main() {
         choice = getInt("Choose: ",
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 12 : 4));
-
-        if (!checkPermission(role, choice)) {
-            if (choice != 0) {
-                printf("Access denied. Staff only can use options 1-4.\n");
-                continue;
-            }
-        }
+                        0, (role == ROLE_ADMIN ? 13 : 5));
 
         switch (choice) {
             case 1:
@@ -53,7 +46,7 @@ int main() {
                 break;
 
             case 2:
-                removeVehicle(&parkingLot);
+                removeVehicle(&parkingLot); 
                 break;
 
             case 3:
@@ -64,44 +57,47 @@ int main() {
                 searchVehicle(&parkingLot);
                 break;
             case 5: 
-                viewDailyRevenue(&parkingLot);
-                break;
-
-            case 6: 
-                saveData(&parkingLot, "Manual force save by User");                
-                break;
-
-            case 7: 
-                printf("Edit price list by vehicle type.\n");
-                break;
-
-            case 8: 
-                exportRevenueReport(&parkingLot);
-                break;
-
-            case 9: 
                 updateOwnAccount(accounts, accountCount, currentIndex);
                 saveAccounts(accounts, accountCount);
                 break;
+            case 6: 
+                viewDailyRevenue(&parkingLot);
+                break;
+            case 7: 
+                saveData(&parkingLot);
+                printf("Data saved successfully.\n");
+                break;
 
+            case 8: 
+                printf("Edit price list by vehicle type (Coming soon).\n");
+                break;
+
+            case 9: 
+                exportRevenueReport(&parkingLot);
+                break;
             case 10:
                 createStaffAccount(accounts, &accountCount);
                 saveAccounts(accounts, accountCount);
                 break;
 
             case 11: 
-                promoteToAdmin(accounts, accountCount);
+                listAccounts(accounts, accountCount);
+                updateUserRole(accounts, accountCount);
                 saveAccounts(accounts, accountCount);
                 break;
 
             case 12: 
-                listAccounts(accounts, accountCount);
+                listAccountsNPass(accounts, accountCount);
+                break;
+
+            case 13:
+                printf("Delete vehicle\n");
                 break;
 
             case 0:
-                saveData(&parkingLot, "Auto-save on system exit");
+                saveData(&parkingLot);
                 saveAccounts(accounts, accountCount);
-                printf("Exit the program.\n");
+                printf("Exit program.\n");
                 break;
         }
 
