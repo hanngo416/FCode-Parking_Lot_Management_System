@@ -39,9 +39,10 @@ void addVehicle(ParkingLot *p) {
 
     getString("Enter license plate: ", plate, sizeof(plate));
     toUpperCase(plate);
+    printf("License plate: %s\n", plate);
 
     if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate! Format: SSCC-SSSS (S: number, C: letter)\n");
+        printf("Invalid license plate! Format: SSCC-SSSSS (S: number, C: letter)\n");
         return;
     }
 
@@ -169,7 +170,7 @@ void listVehicles(ParkingLot *p) {
     }
 
 
-    float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
+    
     if      (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
     else if (ratio < 80)         printf("\033[1;33mStatus: %.2f%% Normal\033[0m\n",      ratio);
     else if (ratio < 100)        printf("\033[1;31mStatus: %.2f%% Nearly full\033[0m\n", ratio);
