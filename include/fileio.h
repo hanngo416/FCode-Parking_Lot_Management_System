@@ -5,5 +5,6 @@
 
 void loadData(ParkingLot *p);
 void saveData(ParkingLot *p, const char *actionMsg);
+void logDeletedVehicle(const Vehicle *v);
 
 #endif

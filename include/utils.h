@@ -6,7 +6,7 @@
 #define RED "\033[0;31m" //ERROR, WARNING
 #define TITLE "\033[1;4;36m" //TITLE, HEADING
 #define LINE "\033[38;2;70;130;180m" //LINE, BORDER
-#define RESET   "\033[0m"
+#define RESET   "\033[0m" //reset cho khoi lan mau
 int getInt(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max);
 
 int getIntUpdate(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max,int oldValue);

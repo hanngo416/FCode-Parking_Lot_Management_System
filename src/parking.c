@@ -4,7 +4,9 @@
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/billing.h"
+#include "../include/fileio.h"
 #include "../include/utils.h"
+
 
 void initParkingLot(ParkingLot *p) {
     p->count = 0;
@@ -67,7 +69,7 @@ void addVehicle(ParkingLot *p) {
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
-    printf("\n--- REMOVE VEHICLE ---\n");
+    printf("\n--- CHECK OUT VEHICLE ---\n");
     getString("Enter license plate: ", plate, sizeof(plate));
 
     if (!isValidLicensePlate(plate)) {
@@ -161,9 +163,10 @@ void searchVehicle(ParkingLot *p) {
     char key[15];
     int found_count = 0;
 
-    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n");
+    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
+    printf(LINE "===================== " TITLE "SUGGESTED RESULTS" RESET LINE " =====================" RESET "\n");
     printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
     printf("-------------------------------------------------------------------------------------\n");
 
@@ -196,6 +199,36 @@ void searchVehicle(ParkingLot *p) {
     }
 
     if (found_count == 0) {
-        printf("No vehicle found matching '%s'.\n", key);
+        printf(RED "No vehicle found matching '%s'.\n" RESET, key);
     }
+}
+
+void deleteVehicle(ParkingLot *p) {
+    char plate[20];
+    printf("\n" LINE "================ " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ================" RESET "\n");
+    getString("Enter license plate to permanently delete: ", plate, sizeof(plate));
+
+    int targetIdx = -1;
+    for (int i = 0; i < p->count; i++) {
+        if (strcmp(p->list[i].licensePlate, plate) == 0) {
+            targetIdx = i;
+            break;
+        }
+    }
+
+    if (targetIdx == -1) {
+        printf(RED "Error: Vehicle '%s' not found in the system!\n" RESET, plate);
+        return;
+    }
+
+    logDeletedVehicle(&p->list[targetIdx]);
+
+    for (int i = targetIdx; i < p->count - 1; i++) {
+        p->list[i] = p->list[i + 1];
+    }
+    p->count--;
+
+    printf(GREEN "Vehicle '%s' has been permanently deleted and logged.\n" RESET, plate);
+    
+    saveData(p, "Admin permanently deleted a vehicle");
 }
