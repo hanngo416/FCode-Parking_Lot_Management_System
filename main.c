@@ -64,7 +64,7 @@ int main() {
                 viewDailyRevenue(&parkingLot);
                 break;
             case 7: 
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Manual force save by User");                
                 printf("Data saved successfully.\n");
                 break;
 
@@ -95,7 +95,7 @@ int main() {
                 break;
 
             case 0:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Auto-save on system exit");
                 saveAccounts(accounts, accountCount);
                 printf("Exit program.\n");
                 break;
