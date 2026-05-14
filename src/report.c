@@ -27,12 +27,8 @@ static int isSameDay(time_t t1, time_t t2) {
 
 void viewDailyRevenue(ParkingLot *p) {
     time_t now = time(NULL);
-<<<<<<< HEAD
-    struct tm *today = localtime(&now);
-=======
     struct tm *tm_ptr = localtime(&now);
     struct tm today = *tm_ptr; // Copy to local struct
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
     double totalRevenue = 0.0;
     int totalVehiclesOut = 0;
     int i;
@@ -41,11 +37,7 @@ void viewDailyRevenue(ParkingLot *p) {
     printf("     DAILY REVENUE STATISTICS\n");
     printf("========================================\n");
     printf("  Date: %02d/%02d/%04d\n",
-<<<<<<< HEAD
-           today->tm_mday, today->tm_mon + 1, today->tm_year + 1900);
-=======
            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
     printf("----------------------------------------\n");
 
     for (i = 0; i < p->count; i++) {
@@ -74,23 +66,15 @@ void viewDailyRevenue(ParkingLot *p) {
 
 void exportRevenueReport(ParkingLot *p) {
     time_t now = time(NULL);
-<<<<<<< HEAD
-    struct tm *today = localtime(&now);
-=======
     struct tm *tm_ptr = localtime(&now);
     struct tm today = *tm_ptr;
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
     double totalRevenue = 0.0;
     int totalVehiclesOut = 0;
     char filename[50];
     int i;
 
     sprintf(filename, "data/report_%02d_%02d_%04d.txt",
-<<<<<<< HEAD
-            today->tm_mday, today->tm_mon + 1, today->tm_year + 1900);
-=======
             today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
 
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -103,15 +87,9 @@ void exportRevenueReport(ParkingLot *p) {
     fprintf(fp, "       FPT University Ho Chi Minh City\n");
     fprintf(fp, "===================================================\n");
     fprintf(fp, "  Date       : %02d/%02d/%04d\n",
-<<<<<<< HEAD
-            today->tm_mday, today->tm_mon + 1, today->tm_year + 1900);
-    fprintf(fp, "  Generated  : %02d:%02d:%02d\n",
-            today->tm_hour, today->tm_min, today->tm_sec);
-=======
             today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
     fprintf(fp, "  Generated  : %02d:%02d:%02d\n",
             today.tm_hour, today.tm_min, today.tm_sec);
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
     fprintf(fp, "===================================================\n\n");
 
     fprintf(fp, "%-5s %-15s %-14s %12s\n", "No.", "License Plate", "Vehicle Type", "Parking Fee");

@@ -22,31 +22,19 @@ void loadData(ParkingLot *p) {
 
     while (p->count < MAX_VEHICLES) {
         int type, status;
-<<<<<<< HEAD
-        long entry, exit_t;
-        double fee;
-        char plate[20];
-
-        int result = fscanf(fp, "%19[^|]|%d|%ld|%ld|%lf|%d\n",
-=======
         long long entry, exit_t;
         double fee;
         char plate[20];
 
         int result = fscanf(fp, "%11[^|]|%d|%lld|%lld|%lf|%d\n",
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
                             plate, &type, &entry, &exit_t, &fee, &status);
 
         if (result == EOF || result != 6) {
             break;
         }
 
-<<<<<<< HEAD
-        strcpy(p->list[p->count].licensePlate, plate);
-=======
         strncpy(p->list[p->count].licensePlate, plate, 11);
         p->list[p->count].licensePlate[11] = '\0';
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
         p->list[p->count].type = (VehicleType)type;
         p->list[p->count].entryTime = (time_t)entry;
         p->list[p->count].exitTime = (time_t)exit_t;
@@ -73,19 +61,11 @@ void saveData(ParkingLot *p, const char *actionMsg) {
 
     int i;
     for (i = 0; i < p->count; i++) {
-<<<<<<< HEAD
-        fprintf(fp, "%s|%d|%ld|%ld|%.2f|%d\n",
-                p->list[i].licensePlate,
-                p->list[i].type,
-                (long)p->list[i].entryTime,
-                (long)p->list[i].exitTime,
-=======
         fprintf(fp, "%s|%d|%lld|%lld|%.2f|%d\n",
                 p->list[i].licensePlate,
                 p->list[i].type,
                 (long long)p->list[i].entryTime,
                 (long long)p->list[i].exitTime,
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
                 p->list[i].fee,
                 p->list[i].status);
     }
@@ -94,8 +74,6 @@ void saveData(ParkingLot *p, const char *actionMsg) {
 
     printf("[System Sync] %s - Total: %d records saved to %s\n", actionMsg, p->count, DATA_FILE);
 }
-<<<<<<< HEAD
-=======
 
 void logDeletedVehicle(const Vehicle *v) {
     FILE *fp = fopen("data/deleted_vehicles.dat", "a");
@@ -114,4 +92,3 @@ void logDeletedVehicle(const Vehicle *v) {
 
     fclose(fp);
 }
->>>>>>> 329567bc8c4173603ca3011fd7cb60a8b506d56e
