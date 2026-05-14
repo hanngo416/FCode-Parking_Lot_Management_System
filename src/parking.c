@@ -4,7 +4,9 @@
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/billing.h"
+#include "../include/fileio.h"
 #include "../include/utils.h"
+
 
 void initParkingLot(ParkingLot *p) {
     p->count = 0;
@@ -67,7 +69,7 @@ void addVehicle(ParkingLot *p) {
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
-    printf("\n--- REMOVE VEHICLE ---\n");
+    printf("\n--- CHECK OUT VEHICLE ---\n");
     getString("Enter license plate: ", plate, sizeof(plate));
 
     if (!isValidLicensePlate(plate)) {

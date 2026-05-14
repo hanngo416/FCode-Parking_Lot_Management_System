@@ -4,6 +4,6 @@
 #include "parking.h"
 
 void loadData(ParkingLot *p);
-void saveData(ParkingLot *p);
+void saveData(ParkingLot *p, const char *actionMsg);
 
 #endif

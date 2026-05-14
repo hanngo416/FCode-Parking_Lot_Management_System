@@ -9,10 +9,11 @@ typedef struct {
     int count;
 } ParkingLot;
 
-int findVehicleIndex(ParkingLot *p, const char *plate); //update
+int findVehicleIndex(ParkingLot *p, const char *plate);
 void initParkingLot(ParkingLot *p);
 void addVehicle(ParkingLot *p);
 void removeVehicle(ParkingLot *p);
+void deleteVehicle(ParkingLot *p); // Admin permanent delete
 void listVehicles(ParkingLot *p);
 void searchVehicle(ParkingLot *p);
 
