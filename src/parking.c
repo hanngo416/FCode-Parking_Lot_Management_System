@@ -163,9 +163,10 @@ void searchVehicle(ParkingLot *p) {
     char key[15];
     int found_count = 0;
 
-    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n");
+    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
+    printf(LINE "===================== " TITLE "SUGGESTED RESULTS" RESET LINE " =====================" RESET "\n");
     printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
     printf("-------------------------------------------------------------------------------------\n");
 
@@ -198,6 +199,6 @@ void searchVehicle(ParkingLot *p) {
     }
 
     if (found_count == 0) {
-        printf("No vehicle found matching '%s'.\n", key);
+        printf(RED "No vehicle found matching '%s'.\n" RESET, key);
     }
 }

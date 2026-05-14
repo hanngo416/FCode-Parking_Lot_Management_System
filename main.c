@@ -28,8 +28,8 @@ int main() {
     do {
         int role = accounts[currentIndex].role;
 
-        printf("\n========= PARKING LOT MANAGEMENT =========\n");
-        printf("User: %s | Role: %s\n",
+        printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
+        printf(YELLOW "      User: %s | Role: %s\n" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
@@ -64,7 +64,7 @@ int main() {
                 viewDailyRevenue(&parkingLot);
                 break;
             case 7: 
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Auto-saving data...");
                 printf("Data saved successfully.\n");
                 break;
 
@@ -95,7 +95,7 @@ int main() {
                 break;
 
             case 0:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Exiting program...");
                 saveAccounts(accounts, accountCount);
                 printf("Exit program.\n");
                 break;

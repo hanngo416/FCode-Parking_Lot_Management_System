@@ -4,6 +4,7 @@
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/fileio.h"
+#include "../include/utils.h"
 
 #define DATA_FILE "data/vehicles.dat"
 
@@ -12,9 +13,9 @@ void loadData(ParkingLot *p) {
 
     if (fp == NULL) {
         p->count = 0;
-        printf("========================================\n");
-        printf("  No saved data found in vehicles.dat. Starting fresh.\n");
-        printf("========================================\n");
+        printf(LINE "========================================\n" RESET);
+        printf(RED "  No saved data found in vehicles.dat. Starting fresh.\n" RESET);
+        printf(LINE "========================================\n" RESET);
         return;
     }
 
@@ -46,16 +47,16 @@ void loadData(ParkingLot *p) {
 
     fclose(fp);
 
-    printf("========================================\n");
-    printf("  System Data loaded: %d vehicle(s) found.\n", p->count);
-    printf("========================================\n");
+    printf(LINE "========================================\n" RESET);
+    printf(GREEN "  System Data loaded: %d vehicle(s) found.\n" RESET, p->count);
+    printf(LINE "========================================\n" RESET);
 }
 
 void saveData(ParkingLot *p, const char *actionMsg) {
     FILE *fp = fopen(DATA_FILE, "w");
 
     if (fp == NULL) {
-        printf("ERROR: Cannot open %s for saving!\n", DATA_FILE);
+        printf(RED "ERROR: Cannot open %s for saving!\n" RESET, DATA_FILE);
         return;
     }
 
@@ -78,7 +79,7 @@ void saveData(ParkingLot *p, const char *actionMsg) {
 void logDeletedVehicle(const Vehicle *v) {
     FILE *fp = fopen("data/deleted_vehicles.dat", "a");
     if (fp == NULL) {
-        printf("ERROR: Cannot open deleted_vehicles.dat for logging!\n");
+        printf(RED "ERROR: Cannot open deleted_vehicles.dat for logging!\n" RESET);
         return;
     }
 
