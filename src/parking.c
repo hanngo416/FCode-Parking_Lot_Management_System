@@ -26,29 +26,29 @@ int findVehicleIndex(ParkingLot *p, const char *plate) {
 
 void addVehicle(ParkingLot *p) {
     if (p->count >= MAX_VEHICLES) {
-        printf("Parking lot is full!\n");
+        printf(RED "Parking lot is full!\n" RESET);
         return;
     }
 
     char plate[20];
     int type;
 
-    printf("\n--- ADD VEHICLE ---\n");
+    printf(LINE "\n===================== " TITLE "ADD VEHICLE" RESET LINE " =====================" RESET "\n");
 
-    getString("Enter license plate: ", plate, sizeof(plate));
+    getString(YELLOW "Enter license plate: " RESET, plate, sizeof(plate));
     if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate! Format: SSCC-SSSS( S: number, C: letter)\n");
+        printf(RED "Invalid license plate! Format: SSCC-SSSS( S: number, C: letter)\n" RESET);
         return;
     }
 
     if (isDuplicateLicensePlate(p->list, p->count, plate)) {
-        printf("Vehicle already exists!\n");
+        printf(RED "Vehicle already exists!\n" RESET);
         return;
     }
 
     type = getInt("Vehicle type (0: motorbike, 1: car, 2: bus): ",
-                  "Vehicle type must be 0, 1, or 2.",
-                  "Please enter a valid number.",
+                  RED "Vehicle type must be 0, 1, or 2." RESET,
+                  RED "Please enter a valid number." RESET,
                   0, 2);
 
     Vehicle *v = &p->list[p->count];
@@ -63,25 +63,25 @@ void addVehicle(ParkingLot *p) {
 
     p->count++;
 
-    printf("Vehicle added successfully!\n");
+    printf(GREEN "Vehicle added successfully!\n" RESET);
     printf("Entry time: %s", ctime(&v->entryTime));
 }
 
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
-    printf("\n--- CHECK OUT VEHICLE ---\n");
-    getString("Enter license plate: ", plate, sizeof(plate));
+    printf(LINE "\n===================== " TITLE "CHECK OUT VEHICLE" RESET LINE " =====================" RESET "\n");
+    getString(YELLOW "Enter license plate: " RESET, plate, sizeof(plate));
 
     if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate!\n");
+        printf(RED "Invalid license plate!\n" RESET);
         return;
     }
 
     int idx = findVehicleIndex(p, plate);
 
     if (idx == -1) {
-        printf("Vehicle not found or already exited!\n");
+        printf(RED "Vehicle not found or already exited!\n" RESET);
         return;
     }
 
@@ -90,15 +90,15 @@ void removeVehicle(ParkingLot *p) {
     v->exitTime = time(NULL);
 
     if (v->exitTime <= v->entryTime) {
-        printf("Time error!\n");
+        printf(RED "Time error!\n" RESET);
         return;
     }
 
     v->fee = calculateFee(*v);
     v->status = EXITED;
 
-    printf("\n--- BILL ---\n");
-    printf("Plate: %s\n", v->licensePlate);
+    printf(TITLE"\n------------- BILL -------------\n""\n" RESET);
+    printf(YELLOW "Plate: %s\n" RESET, v->licensePlate);
 
     if (v->type == MOTO) printf("Type: Motorbike\n");
     else if (v->type == CAR) printf("Type: Car\n");
@@ -106,12 +106,12 @@ void removeVehicle(ParkingLot *p) {
 
     printf("Entry: %s", ctime(&v->entryTime));
     printf("Exit : %s", ctime(&v->exitTime));
-    printf("Fee  : %.0f VND\n", v->fee);
+    printf(YELLOW "Fee  : %.0f VND\n" RESET, v->fee);
 }
 
 void listVehicles(ParkingLot *p) {
     int choice;
-    printf(TITLE "\n------------------------------ DISPLAY OPTIONS ------------------------------\n" RESET);
+    printf(LINE "\n===================== " TITLE "DISPLAY OPTIONS" RESET LINE " =====================" RESET "\n");
     printf("1. Vehicles currently in yard\n");
     printf("2. Vehicles already left\n");
     printf("3. All transaction history\n");
