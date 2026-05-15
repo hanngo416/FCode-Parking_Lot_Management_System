@@ -5,6 +5,7 @@
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/report.h"
+#include "../include/utils.h"
 
 static const char* getVehicleTypeName(VehicleType type) {
     switch (type) {
@@ -34,12 +35,12 @@ void viewDailyRevenue(ParkingLot *p) {
     int totalVehiclesOut = 0;
     int i;
 
-    printf("\n========================================\n");
-    printf("     DAILY REVENUE STATISTICS\n");
-    printf("========================================\n");
-    printf("  Date: %02d/%02d/%04d\n",
+    printf(LINE "\n==========================================\n" RESET);
+    printf(TITLE "        DAILY REVENUE STATISTICS\n" RESET);
+    printf(LINE "==========================================\n" RESET);
+    printf(YELLOW "          Date: %02d/%02d/%04d\n" RESET,
            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
-    printf("----------------------------------------\n");
+    printf(LINE "------------------------------------------  \n" RESET);
 
     for (i = 0; i < p->count; i++) {
         if (p->list[i].status != 1) {
@@ -55,14 +56,14 @@ void viewDailyRevenue(ParkingLot *p) {
     }
 
     if (totalVehiclesOut == 0) {
-        printf("  No revenue data for today.\n");
-        printf("  No vehicles have checked out yet.\n");
+        printf("  No revenue data for today.\n" );
+        printf("  No vehicles have checked out yet.\n" );
     } else {
-        printf("  Vehicles checked out : %d\n", totalVehiclesOut);
-        printf("  Total revenue        : %.0f VND\n", totalRevenue);
+        printf("  Vehicles checked out : " YELLOW "%d\n" RESET, totalVehiclesOut);
+        printf("  Total revenue        : " YELLOW "%.0f VND\n" RESET, totalRevenue);
     }
 
-    printf("========================================\n");
+    printf(LINE "==========================================\n" RESET);
 }
 
 void exportRevenueReport(ParkingLot *p) {
