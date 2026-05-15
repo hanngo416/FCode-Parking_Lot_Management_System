@@ -132,7 +132,7 @@ void listVehicles(ParkingLot *p) {
         printf("\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n", 
                "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
     }
-    printf(LINE "--------------------------------------------------------------------------------\n");
+    printf(LINE "------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < p->count; i++) {
         bool shouldPrint = false;
