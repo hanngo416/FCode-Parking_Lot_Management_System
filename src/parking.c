@@ -80,6 +80,8 @@ void addVehicle(ParkingLot *p) {
 
     printf(GREEN "Vehicle added successfully!\n" RESET);
     printf("Entry time: %s", ctime(&v->entryTime));
+
+    saveData(p, "Auto-save after Check-in");
 }
 
 void removeVehicle(ParkingLot *p) {
@@ -87,43 +89,29 @@ void removeVehicle(ParkingLot *p) {
 
     printf("\n--- CHECK OUT VEHICLE ---\n");
     printf("\nCurrent vehicles in yard:\n");
-
-    printf("\033[1;36m%-5s | %-15s | %-15s\033[0m\n",
-       "No", "LICENSE PLATE", "VEHICLE TYPE");
-
+    printf("\033[1;36m%-5s | %-15s | %-15s\033[0m\n", "No", "LICENSE PLATE", "VEHICLE TYPE");
     printf("--------------------------------------------------\n");
 
     int count = 0;
-
     for (int i = 0; i < p->count; i++) {
-
         if (p->list[i].status == PARKING) {
-
             count++;
+            const char *typeStr;
+            if (p->list[i].type == MOTO) typeStr = "Motorbike";
+            else if (p->list[i].type == CAR) typeStr = "Car";
+            else if (p->list[i].type == BUS) typeStr = "Bus";
+            else typeStr = "Other";
 
-                const char *typeStr;
-
-        if (p->list[i].type == MOTO)
-            typeStr = "Motorbike";
-        else if (p->list[i].type == CAR)
-            typeStr = "Car";
-        else if (p->list[i].type == BUS)
-            typeStr = "Bus";
-        else
-            typeStr = "Other";
-
-        printf("%-5d | %-15s | %-15s\n",
-               count,
-               p->list[i].licensePlate,
-               typeStr);
+            printf("%-5d | %-15s | %-15s\n", count, p->list[i].licensePlate, typeStr);
+        }
     }
-}
 
-printf("--------------------------------------------------\n");    
+    printf("--------------------------------------------------\n");    
     if (p->count == 0) {
          printf("No vehicles in parking lot.\n");
          return;
     }
+
     getString("Enter license plate: ", plate, sizeof(plate));
     toUpperCase(plate);
 
@@ -150,6 +138,8 @@ printf("--------------------------------------------------\n");
     v->status = EXITED;
 
     printBill(*v, p);
+    
+    saveData(p, "Auto-save after Check-out");
 }
 
 void listVehicles(ParkingLot *p) {
@@ -167,7 +157,7 @@ void listVehicles(ParkingLot *p) {
         {
             printf(RED "Error: Invalid input! Please enter a number (1, 2, 3, or 4).\n" RESET);
             while(getchar() != '\n'); 
-            continue;                 
+            continue;                
         } 
         while(getchar() != '\n'); 
 
@@ -194,8 +184,9 @@ void listVehicles(ParkingLot *p) {
                "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
     }
     printf(LINE "------------------------------------------------------------------------------\n");
+    
     if (choice == 4) {
-        FILE *f = fopen("delete_vehicles.dat", "r");
+        FILE *f = fopen("data/deleted_vehicles.dat", "r");
         if (f == NULL) {
             printf(RED "No deleted vehicles history file found!\n" RESET);
         } else {
@@ -287,26 +278,27 @@ void listVehicles(ParkingLot *p) {
                 printf(RESET); 
             }
         }
-    }
-   
-    float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
-    if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
-    printf(LINE "------------------------------------------------------------------------------\n");
-    if (ratio < 80) 
-    {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
-    }
-    else if (ratio < 100) 
-    {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
-    }
-    else 
-    {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
-    }
+
+        float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
+        if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
+        printf(LINE "------------------------------------------------------------------------------\n");
+        if (ratio < 80) 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
+        }
+        else if (ratio < 100) 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
+        }
+        else 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
+        }
+        }
+    
 }
 
 void searchVehicle(ParkingLot *p) 
@@ -314,7 +306,7 @@ void searchVehicle(ParkingLot *p)
     char key[15];
     int found_count = 0;
 
-    printf(LINE "============================== " TITLE "SEARCH VEHICLE" RESET LINE " ===============================" RESET "\n\n");
+    printf(LINE "============================== " TITLE "SEARCH VEHICLE" RESET LINE " ==============================" RESET "\n\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
     char upperKey[15];
@@ -369,39 +361,79 @@ void searchVehicle(ParkingLot *p)
     }
 }
 
+void deleteVehicle(ParkingLot *p) {
+    printf("\n" LINE "=================== " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ===================" RESET "\n");
 
-void deleteVehicle(ParkingLot *p) 
-{
-    char plate[20];
-    printf("\n" LINE "======================== " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ========================" RESET "\n");
-    getString(YELLOW "Enter license plate to permanently delete: " RESET, plate, sizeof(plate));
-
-    int targetIdx = -1;
-    for (int i = 0; i < p->count; i++) 
-    {
-        if (strcmp(p->list[i].licensePlate, plate) == 0) 
-        {
-            targetIdx = i;
-            break;
-        }
-    }
-
-    if (targetIdx == -1) 
-    {
-        printf(RED "Error: Vehicle '%s' not found in the system!\n" RESET, plate);
+    if (p->count == 0) {
+        printf(YELLOW "  System is currently empty. No vehicles to delete.\n" RESET);
         return;
     }
 
-    logDeletedVehicle(&p->list[targetIdx]);
+    printf("\n" TITLE "--- AVAILABLE VEHICLES IN SYSTEM ---" RESET "\n");
+    printf("\033[1;36m %-5s | %-15s | %-15s | %-18s\033[0m\n", "STT", "LICENSE PLATE", "VEHICLE TYPE", "STATUS");
+    printf(LINE "-------------------------------------------------------------------\n" RESET);
 
-    for (int i = targetIdx; i < p->count - 1; i++) 
-    {
+    for (int i = 0; i < p->count; i++) {
+        const char *typeStr;
+        if (p->list[i].type == MOTO) typeStr = "Motorbike";
+        else if (p->list[i].type == CAR) typeStr = "Car";
+        else if (p->list[i].type == BUS) typeStr = "Bus";
+        else typeStr = "Other";
+
+        printf(RESET " %-5d | %-15s | %-15s | %-18s\n",
+               i + 1,
+               p->list[i].licensePlate,
+               typeStr,
+               p->list[i].status == PARKING ? "Currently parked" : "Already exited");
+    }
+    printf(LINE "-------------------------------------------------------------------\n" RESET);
+
+    char plate[20];
+    int targetIdx = -1;
+
+    while (1) {
+        getString("\nEnter license plate to permanently delete (or '0' to cancel): ", plate, sizeof(plate));
+        
+        if (strcmp(plate, "0") == 0) {
+            printf(YELLOW " Deletion cancelled. Returning to main menu...\n" RESET);
+            return;
+        }
+
+        targetIdx = -1;
+        for (int i = 0; i < p->count; i++) {
+            int j = 0;
+            int isMatch = 1;
+            while (p->list[i].licensePlate[j] != '\0' || plate[j] != '\0') {
+                if (toupper((unsigned char)p->list[i].licensePlate[j]) != toupper((unsigned char)plate[j])) {
+                    isMatch = 0;
+                    break;
+                }
+                j++;
+            }
+            
+            if (isMatch) {
+                targetIdx = i;
+                break;
+            }
+        }
+
+        if (targetIdx != -1) {
+            break; 
+        }
+        
+        printf(RED " Oops! Vehicle '%s' was not found. Please double-check the list and try again.\n" RESET, plate);
+    }
+
+    logDeletedVehicle(&p->list[targetIdx]);
+    
+    char deletedPlate[20];
+    strcpy(deletedPlate, p->list[targetIdx].licensePlate);
+
+    for (int i = targetIdx; i < p->count - 1; i++) {
         p->list[i] = p->list[i + 1];
     }
     p->count--;
 
-    printf(GREEN "Vehicle '%s' has been permanently deleted and logged.\n" RESET, plate);
-    
+    printf(GREEN " Success! Vehicle '%s' has been completely removed from the system.\n" RESET, deletedPlate);
     saveData(p, "Admin permanently deleted a vehicle");
 }
-

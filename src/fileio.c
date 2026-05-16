@@ -23,7 +23,7 @@ void loadData(ParkingLot *p) {
 
     while (p->count < MAX_VEHICLES) {
         int type, status;
-        long entry, exit_t;
+        long entry, exit_t; 
         double fee;
         char plate[20];
 
@@ -34,7 +34,9 @@ void loadData(ParkingLot *p) {
             break;
         }
 
-        strcpy(p->list[p->count].licensePlate, plate);
+        strncpy(p->list[p->count].licensePlate, plate, sizeof(p->list[p->count].licensePlate) - 1);
+        p->list[p->count].licensePlate[sizeof(p->list[p->count].licensePlate) - 1] = '\0';
+        
         p->list[p->count].type = (VehicleType)type;
         p->list[p->count].entryTime = (time_t)entry;
         p->list[p->count].exitTime = (time_t)exit_t;
