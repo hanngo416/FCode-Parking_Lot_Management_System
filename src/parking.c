@@ -244,4 +244,32 @@ void searchVehicle(ParkingLot *p) {
     if (found_count == 0)
         printf("No vehicle found matching '%s'.\n", key);
     }
+    void deleteVehicle(ParkingLot *p) {
+    char plate[20];
+    printf("\n" LINE "================ " TITLE "DELETE VEHICLE" RESET LINE " ================" RESET "\n");
+    getString("Enter license plate to permanently delete: ", plate, sizeof(plate));
 
+    int targetIdx = -1;
+    for (int i = 0; i < p->count; i++) {
+        if (strcmp(p->list[i].licensePlate, plate) == 0) {
+            targetIdx = i;
+            break;
+        }
+    }
+
+    if (targetIdx == -1) {
+        printf(RED "Vehicle '%s' not found in the system!\n" RESET, plate);
+        return;
+    }
+
+    logDeletedVehicle(&p->list[targetIdx]);
+
+    for (int i = targetIdx; i < p->count - 1; i++) {
+        p->list[i] = p->list[i + 1];
+    }
+    p->count--;
+
+    printf(GREEN "Vehicle '%s' has been permanently deleted and logged.\n" RESET, plate);
+    
+    saveData(p, "Admin permanently deleted a vehicle");
+}
