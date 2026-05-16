@@ -29,17 +29,16 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
-        printf(YELLOW "      User: %s | Role: %s\n" RESET,
+        printf(YELLOW "\n\n      User: %s | Role: %s" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
         printMenuByRole(role);
 
-        choice = getInt("Choose: ",
+        choice = getInt(YELLOW "Choose: " RESET,
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 13 : 5));
+                        0, (role == ROLE_ADMIN ? 13 : 6));
 
         switch (choice) {
             case 1:
@@ -47,7 +46,7 @@ int main() {
                 break;
 
             case 2:
-                removeVehicle(&parkingLot); 
+                removeVehicle(&parkingLot);
                 break;
 
             case 3:
@@ -62,12 +61,13 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                viewDailyRevenue(&parkingLot);
-                break;
-            case 7: 
                 saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
+            case 7: 
+                viewDailyRevenue(&parkingLot);
+                break;
+            
             case 8:
                 updatePrice(&parkingLot);
                 break;
@@ -97,7 +97,7 @@ int main() {
             case 0:
                 saveData(&parkingLot, "Exiting program...");
                 saveAccounts(accounts, accountCount);
-                printf("Exit program.\n");
+                printf("Exit the program.\n");
                 break;
         }
 

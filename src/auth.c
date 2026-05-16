@@ -21,7 +21,7 @@ int login(Account accounts[], int accountCount) {
     char username[30];
     char password[30];
 
-    printf(LINE "\n==============" TITLE "[ LOGIN ]" RESET LINE"==============\n" RESET);
+    printf(LINE "================================== " TITLE "LOGIN" RESET LINE " ==================================" RESET "\n\n");
 
     int index = -1;
     while (index == -1) {
@@ -50,19 +50,19 @@ int login(Account accounts[], int accountCount) {
 
 void printMenuByRole(int role) {
  
-    printf(LINE "\n==========================================\n" RESET);
-    printf(TITLE "[         PARKING LOT MANAGEMENT         ]" "\n" RESET);
-    printf(LINE "==========================================\n"  RESET);
+    printf(LINE "\n============================================================================\n" RESET);
+    printf(TITLE "[                            PARKING LOT MANAGEMENT                        ]" "\n" RESET);
+    printf(LINE "============================================================================\n"  RESET);
 
     printf("1. Check in a vehicle\n");
     printf("2. Check out a vehicle\n");
     printf("3. View parked vehicles\n");
     printf("4. Search a vehicle\n");
     printf("5. Change my password\n");
+    printf("6. Save data\n");
 
     if (role == ROLE_ADMIN) {
-    printf("6. View daily report\n");
-    printf("7. Save data\n");
+    printf("7. View daily report\n");
     printf("8. Edit price list by vehicle type\n");
     printf("9. Export revenue report (.txt)\n");
     printf("10. Create staff account\n");
@@ -73,14 +73,14 @@ void printMenuByRole(int role) {
 
     printf("0. Exit\n");
 
-    printf(LINE "===========================================\n" RESET);
+    printf(LINE "-----------------------------------------------------------------------------\n" RESET);
 }
 
 void updateOwnAccount(Account accounts[], int accountCount, int currentIndex) {
 
     char newPassword[30];
 
-    printf(LINE "\n=====" TITLE "CHANGE PASSWORD" RESET LINE "=====\n" RESET);
+    printf(LINE "\n============================== " TITLE "CHANGE PASSWORD" RESET LINE " ==============================" RESET "\n");
     printf("Current account: %s\n", accounts[currentIndex].username);
 
     while (1) {
@@ -117,7 +117,7 @@ void createStaffAccount(Account accounts[], int *accountCount) {
     char username[30];
     char password[30];
 
-    printf(TITLE "\n===== CREATE STAFF ACCOUNT =====\n" RESET);
+    printf(TITLE "\n============================ CREATE STAFF ACCOUNT ===========================\n" RESET);
 
     while (1) {
         getString("Enter username: ", username, sizeof(username));
@@ -132,7 +132,7 @@ void createStaffAccount(Account accounts[], int *accountCount) {
         return;
     }
 
-    printf(LINE "\n=====" TITLE "CREATE STAFF ACCOUNT" RESET LINE "=====\n" RESET);
+    printf(TITLE "\n============================ CREATE STAFF ACCOUNT ===========================\n" RESET);
     while (1) {
         getString("Enter password: ", password, sizeof(password));
         if (isValidPassword(password)) break;
@@ -152,7 +152,7 @@ void updateUserRole(Account accounts[], int accountCount) {
 
     char username[30];
 
-    printf(LINE "\n=====" TITLE "CHANGE USER ROLE" RESET LINE "=====\n" RESET);
+    printf(LINE "\n================================ " TITLE "CHANGE USER ROLE" RESET LINE " ===========================" RESET "\n");
 
     getString("Enter username: ", username, sizeof(username));
     trim(username);
@@ -175,7 +175,7 @@ void updateUserRole(Account accounts[], int accountCount) {
 }
 void listAccounts(Account accounts[], int accountCount) {
 
-    printf(LINE "\n=====" TITLE "ACCOUNT LIST" RESET LINE "=====\n" RESET);
+    printf(LINE "\n=============================== " TITLE "ACCOUNT LIST" RESET LINE " ================================" RESET "\n");
 
     for (int i = 0; i < accountCount; i++) {
 
@@ -186,12 +186,12 @@ void listAccounts(Account accounts[], int accountCount) {
         } else {
             printf("Role: STAFF\n");
         }
-        printf("------------------------\n");
+    printf(LINE "-----------------------------------------------------------------------------\n" RESET);
     }
 }
 void listAccountsNPass(Account accounts[], int accountCount) {
 
-    printf(LINE "\n=====" TITLE "ACCOUNT LIST" RESET LINE "=====\n" RESET);
+    printf(LINE "\n=============================== " TITLE "ACCOUNT LIST" RESET LINE " ================================" RESET "\n");
 
     for (int i = 0; i < accountCount; i++) {
 
@@ -204,7 +204,7 @@ void listAccountsNPass(Account accounts[], int accountCount) {
             printf( "Role: STAFF\n" );
         }
         
-        printf(LINE "------------------------\n" RESET);
+        printf(LINE "-----------------------------------------------------------------------------\n" RESET);
     }
 }
 

@@ -1,12 +1,12 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include "types.h"
-#define GREEN "\033[0;32m" //NORMAL, SUCCESS
-#define YELLOW "\033[0;33m" //HIGHLIGHT, NOTE
-#define RED "\033[0;31m" //ERROR, WARNING
-#define TITLE "\033[1;36m" //TITLE, HEADING
-#define LINE "\033[38;2;70;130;180m" //LINE, BORDER
-#define RESET   "\033[0m" //reset cho khoi lan mau
+#define GREEN "\033[0;32m" 
+#define YELLOW "\033[0;33m" 
+#define RED "\033[0;31m" 
+#define TITLE "\033[1;36m" 
+#define LINE "\033[38;2;70;130;180m" 
+#define RESET   "\033[0m"
 int getInt(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max);
 
 int getIntUpdate(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max,int oldValue);
