@@ -285,10 +285,7 @@ void searchVehicle(ParkingLot *p) {
     if (found_count == 0) {
         printf(RED "No vehicle found matching '%s'.\n" RESET, key);
     }
-    void deleteVehicle(ParkingLot *p) {
-    char plate[20];
-    printf("\n" LINE "================ " TITLE "DELETE VEHICLE" RESET LINE " ================" RESET "\n");
-    getString("Enter license plate to permanently delete: ", plate, sizeof(plate));
+}
 
 void deleteVehicle(ParkingLot *p) {
     char plate[20];
