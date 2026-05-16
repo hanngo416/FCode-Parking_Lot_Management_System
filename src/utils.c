@@ -93,9 +93,30 @@ void getStringUpdate(const char *messageInfo,
     }
 }
 void toUpperCase(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
+	int i; 
+    for (i = 0; str[i] != '\0'; i++) {
         str[i] = toupper((unsigned char)str[i]);
     }
+}
+
+void trim(char *str) {
+    int start = 0;
+    int end = strlen(str) - 1;
+    while (isspace((unsigned char)str[start])) {
+        start++;
+    }
+    if (str[start] == '\0') {
+        str[0] = '\0';
+        return;
+    }
+    while (end > start && isspace((unsigned char)str[end])) {
+        end--;
+    }
+    int i;
+    for (i = 0; start <= end; i++, start++) {
+        str[i] = str[start];
+    }
+    str[i] = '\0';
 }
 int isEmpty(const char *str) {
     return str == NULL || strlen(str) == 0;
@@ -120,8 +141,9 @@ int isValidLicensePlate(const char *plate) {
     if (plate[4] != '-') {
         return 0;
     }
-
-    for (int i = 5; i < 10; i++) {
+	
+	int i; 
+    for (i = 5; i < 10; i++) {
         if (!isdigit(plate[i])) {
             return 0;
         }
@@ -131,7 +153,8 @@ int isValidLicensePlate(const char *plate) {
 }
 
 int isDuplicateLicensePlate(Vehicle vehicles[], int count, const char *plate) {
-    for (int i = 0; i < count; i++) {
+	int i; 
+    for (i = 0; i < count; i++) {
         if (vehicles[i].status == 0 &&
             strcmp(vehicles[i].licensePlate, plate) == 0) {
             return 1;
@@ -251,4 +274,23 @@ int isValidPassword(const char *password) {
     }
 
     return valid;
+}
+
+    void printMoney(double amount) {
+
+    long long value = (long long)amount;
+
+    if (value >= 1000000)
+        printf("%lld.%03lld.%03lld",
+               value / 1000000,
+               (value / 1000) % 1000,
+               value % 1000);
+
+    else if (value >= 1000)
+        printf("%lld.%03lld",
+               value / 1000,
+               value % 1000);
+
+    else
+        printf("%lld", value);
 }

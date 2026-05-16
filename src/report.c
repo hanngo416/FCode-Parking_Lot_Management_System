@@ -5,6 +5,7 @@
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/report.h"
+#include "../include/utils.h"
 
 static const char* getVehicleTypeName(VehicleType type) {
     switch (type) {
@@ -28,20 +29,21 @@ static int isSameDay(time_t t1, time_t t2) {
 void viewDailyRevenue(ParkingLot *p) {
     time_t now = time(NULL);
     struct tm *tm_ptr = localtime(&now);
-    struct tm today = *tm_ptr; // Copy to local struct
+    struct tm today = *tm_ptr; 
+    
     double totalRevenue = 0.0;
     int totalVehiclesOut = 0;
     int i;
 
-    printf("\n========================================\n");
-    printf("     DAILY REVENUE STATISTICS\n");
-    printf("========================================\n");
-    printf("  Date: %02d/%02d/%04d\n",
+    printf(LINE "\n===========================================================================\n" RESET);
+    printf(TITLE "[                             DAILY REVENUE REPORT                        ]" "\n" RESET);
+    printf(LINE "===========================================================================\n"  RESET);
+    printf(YELLOW "                              Date: %02d/%02d/%04d\n" RESET,
            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
-    printf("----------------------------------------\n");
+    printf(LINE "---------------------------------------------------------------------------\n" RESET);
 
     for (i = 0; i < p->count; i++) {
-        if (p->list[i].status != 1) {
+        if (p->list[i].status != 1) { 
             continue;
         }
 
@@ -54,27 +56,29 @@ void viewDailyRevenue(ParkingLot *p) {
     }
 
     if (totalVehiclesOut == 0) {
-        printf("  No revenue data for today.\n");
-        printf("  No vehicles have checked out yet.\n");
+        printf("  No revenue data for today.\n" );
+        printf("  No vehicles have checked out yet.\n" );
     } else {
-        printf("  Vehicles checked out : %d\n", totalVehiclesOut);
-        printf("  Total revenue        : %.0f VND\n", totalRevenue);
+        printf("  Vehicles checked out : " YELLOW "%d\n" RESET, totalVehiclesOut);
+        printf("  Total revenue        : " YELLOW "%.0f VND\n" RESET, totalRevenue);
     }
 
-    printf("========================================\n");
+    printf(LINE "===========================================================================\n"  RESET);
 }
 
 void exportRevenueReport(ParkingLot *p) {
     time_t now = time(NULL);
     struct tm *tm_ptr = localtime(&now);
     struct tm today = *tm_ptr;
+    
     double totalRevenue = 0.0;
     int totalVehiclesOut = 0;
-    char filename[50];
+    char filename[100]; 
     int i;
 
-    sprintf(filename, "data/report_%02d_%02d_%04d.txt",
-            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
+    sprintf(filename, "data/report_%02d%02d%04d_%02d%02d%02d.txt",
+            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900,
+            today.tm_hour, today.tm_min, today.tm_sec);
 
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -97,7 +101,7 @@ void exportRevenueReport(ParkingLot *p) {
 
     int rowNum = 0;
     for (i = 0; i < p->count; i++) {
-        if (p->list[i].status != 1) {
+        if (p->list[i].status != 1) { 
             continue;
         }
         if (!isSameDay(p->list[i].exitTime, now)) {
@@ -127,9 +131,10 @@ void exportRevenueReport(ParkingLot *p) {
     fprintf(fp, "===================================================\n");
 
     fclose(fp);
-    printf("\n========================================\n");
-    printf("  Report exported successfully!\n");
-    printf("  File: %s\n", filename);
-    printf("  Vehicles: %d | Revenue: %.0f VND\n", totalVehiclesOut, totalRevenue);
-    printf("========================================\n");
+    printf("\n");
+    printf(LINE "============================================================================\n"  RESET);
+    printf(GREEN "  Report exported successfully!\n" RESET);
+    printf(YELLOW "  File: %s\n" RESET, filename);
+    printf(YELLOW "  Vehicles: %d | Revenue: %.0f VND\n" RESET, totalVehiclesOut, totalRevenue);
+    printf(LINE "============================================================================\n"  RESET);
 }
