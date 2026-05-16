@@ -2,6 +2,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+#include <conio.h>
+#define IS_WINDOWS 1
+#endif
 #include "../include/utils.h"
 
 void removeNewLine(char *str) {
@@ -293,4 +298,33 @@ int isValidPassword(const char *password) {
 
     else
         printf("%lld", value);
+}
+void inputPassword(char *password, int maxSize) {
+    int i = 0;
+    char c;
+
+    while (i < maxSize - 1) {
+#ifdef _WIN32
+        c = _getch();
+#else
+        c = getchar(); 
+#endif
+        if (c == '\n' || c == '\r') {
+            password[i] = '\0';
+            break;
+        }
+        else if (c == 127 || c == 8) {
+            if (i > 0) {
+                i--;
+                printf("\b \b");
+                fflush(stdout);
+            }
+        }
+        else if (c >= 32 && c <= 126) {
+            password[i++] = c;
+            printf("*");
+            fflush(stdout);
+        }
+    }
+    printf("\n");
 }
