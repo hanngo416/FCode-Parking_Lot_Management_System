@@ -1,7 +1,7 @@
 #include <stdio.h>
-
 #include "include/types.h"
 #include "include/parking.h"
+#include "include/billing.h"
 #include "include/fileio.h"
 #include "include/report.h"
 #include "include/utils.h"
@@ -26,19 +26,19 @@ int main() {
     }
 
     do {
+
         int role = accounts[currentIndex].role;
 
-        printf("\n========= PARKING LOT MANAGEMENT =========\n");
-        printf("User: %s | Role: %s\n",
+        printf(YELLOW "\n\n      User: %s | Role: %s" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
         printMenuByRole(role);
 
-        choice = getInt("Choose: ",
+        choice = getInt(YELLOW "Choose: " RESET,
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 13 : 5));
+                        0, (role == ROLE_ADMIN ? 13 : 6));
 
         switch (choice) {
             case 1:
@@ -46,7 +46,7 @@ int main() {
                 break;
 
             case 2:
-                removeVehicle(&parkingLot); 
+                removeVehicle(&parkingLot);
                 break;
 
             case 3:
@@ -61,15 +61,15 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                viewDailyRevenue(&parkingLot);
-                break;
-            case 7: 
-                saveData(&parkingLot, "Manual force save by User");                
+                saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
-
-            case 8: 
-                printf("Edit price list by vehicle type (Coming soon).\n");
+            case 7: 
+                viewDailyRevenue(&parkingLot);
+                break;
+            
+            case 8:
+                //updatePrice(&parkingLot);
                 break;
 
             case 9: 
@@ -91,13 +91,13 @@ int main() {
                 break;
 
             case 13:
-                printf("Delete vehicle\n");
+                deleteVehicle(&parkingLot);
                 break;
 
             case 0:
-                saveData(&parkingLot, "Auto-save on system exit");
+                saveData(&parkingLot, "Exiting program...");
                 saveAccounts(accounts, accountCount);
-                printf("Exit program.\n");
+                printf("Exit the program.\n");
                 break;
         }
 

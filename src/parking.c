@@ -64,6 +64,8 @@ void addVehicle(ParkingLot *p) {
 
     printf("Vehicle added successfully!\n");
     printf("Entry time: %s", ctime(&v->entryTime));
+
+    saveData(p, "Auto-save after Check-in");
 }
 
 void removeVehicle(ParkingLot *p) {
@@ -106,6 +108,8 @@ void removeVehicle(ParkingLot *p) {
     printf("Entry: %s", ctime(&v->entryTime));
     printf("Exit : %s", ctime(&v->exitTime));
     printf("Fee  : %.0f VND\n", v->fee);
+
+    saveData(p, "Auto-save after Check-out");
 }
 
 void listVehicles(ParkingLot *p) {
@@ -202,3 +206,66 @@ void searchVehicle(ParkingLot *p) {
     }
 }
 
+void deleteVehicle(ParkingLot *p) {
+    printf("\n" LINE "=================== " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ===================" RESET "\n");
+
+    if (p->count == 0) {
+        printf(YELLOW "  System is currently empty. No vehicles to delete.\n" RESET);
+        return;
+    }
+
+    printf("\n" TITLE "--- AVAILABLE VEHICLES IN SYSTEM ---" RESET "\n");
+    printf("\033[1;36m %-5s | %-15s | %-15s | %-18s\033[0m\n", "STT", "LICENSE PLATE", "VEHICLE TYPE", "STATUS");
+    printf(LINE "-------------------------------------------------------------------\n" RESET);
+
+    for (int i = 0; i < p->count; i++) {
+        const char *typeStr;
+        if (p->list[i].type == MOTO) typeStr = "Motorbike";
+        else if (p->list[i].type == CAR) typeStr = "Car";
+        else if (p->list[i].type == BUS) typeStr = "Bus";
+        else typeStr = "Other";
+
+        printf(RESET " %-5d | %-15s | %-15s | %-18s\n",
+               i + 1,
+               p->list[i].licensePlate,
+               typeStr,
+               p->list[i].status == PARKING ? "Currently parked" : "Already exited");
+    }
+    printf(LINE "-------------------------------------------------------------------\n" RESET);
+
+    char plate[20];
+    int targetIdx = -1;
+
+    while (1) {
+        getString("\nEnter license plate to permanently delete (or '0' to cancel): ", plate, sizeof(plate));
+        
+        if (strcmp(plate, "0") == 0) {
+            printf(YELLOW "Deletion cancelled. Returning to menu...\n" RESET);
+            return;
+        }
+
+        targetIdx = -1;
+        for (int i = 0; i < p->count; i++) {
+            if (strcmp(p->list[i].licensePlate, plate) == 0) {
+                targetIdx = i;
+                break;
+            }
+        }
+
+        if (targetIdx != -1) {
+            break; 
+        }
+        
+        printf(RED "Error: Vehicle '%s' not found! Please check the list and try again.\n" RESET, plate);
+    }
+
+    logDeletedVehicle(&p->list[targetIdx]);
+
+    for (int i = targetIdx; i < p->count - 1; i++) {
+        p->list[i] = p->list[i + 1];
+    }
+    p->count--;
+
+    printf(GREEN "Vehicle '%s' has been permanently deleted and logged.\n" RESET, plate);
+    saveData(p, "Admin permanently deleted a vehicle");
+}
