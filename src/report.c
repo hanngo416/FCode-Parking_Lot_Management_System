@@ -131,9 +131,10 @@ void exportRevenueReport(ParkingLot *p) {
     fprintf(fp, "===================================================\n");
 
     fclose(fp);
-    printf("\n========================================\n");
-    printf("  Report exported successfully!\n");
-    printf("  File: %s\n", filename);
-    printf("  Vehicles: %d | Revenue: %.0f VND\n", totalVehiclesOut, totalRevenue);
-    printf("========================================\n");
+    printf("\n");
+    printf(LINE "============================================================================\n"  RESET);
+    printf(GREEN "  Report exported successfully!\n" RESET);
+    printf(YELLOW "  File: %s\n" RESET, filename);
+    printf(YELLOW "  Vehicles: %d | Revenue: %.0f VND\n" RESET, totalVehiclesOut, totalRevenue);
+    printf(LINE "============================================================================\n"  RESET);
 }

@@ -373,8 +373,8 @@ void searchVehicle(ParkingLot *p)
 void deleteVehicle(ParkingLot *p) 
 {
     char plate[20];
-    printf("\n" LINE "================ " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ================" RESET "\n");
-    getString("Enter license plate to permanently delete: ", plate, sizeof(plate));
+    printf("\n" LINE "======================== " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ========================" RESET "\n");
+    getString(YELLOW "Enter license plate to permanently delete: " RESET, plate, sizeof(plate));
 
     int targetIdx = -1;
     for (int i = 0; i < p->count; i++) 
