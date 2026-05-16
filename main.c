@@ -71,7 +71,6 @@ int main() {
             case 8:
                 //updatePrice(&parkingLot);
                 break;
-
             case 9: 
                 exportRevenueReport(&parkingLot);
                 break;
