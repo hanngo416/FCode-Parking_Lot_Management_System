@@ -29,14 +29,13 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
-        printf(YELLOW "      User: %s | Role: %s\n" RESET,
+        printf(YELLOW "\n\n      User: %s | Role: %s" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
         printMenuByRole(role);
 
-        choice = getInt("Choose: ",
+        choice = getInt(YELLOW "Choose: " RESET,
                         "Invalid menu option.",
                         "Invalid input.",
                         0, (role == ROLE_ADMIN ? 13 : 6));

@@ -35,12 +35,12 @@ void viewDailyRevenue(ParkingLot *p) {
     int totalVehiclesOut = 0;
     int i;
 
-    printf(LINE "\n==========================================\n" RESET);
-    printf(TITLE "        DAILY REVENUE STATISTICS\n" RESET);
-    printf(LINE "==========================================\n" RESET);
-    printf(YELLOW "          Date: %02d/%02d/%04d\n" RESET,
+       printf(LINE "\n===========================================================================\n" RESET);
+    printf(TITLE "[                             DAILY REVENUE REPORT                        ]" "\n" RESET);
+    printf(LINE "===========================================================================\n"  RESET);
+    printf(YELLOW "                              Date: %02d/%02d/%04d\n" RESET,
            today.tm_mday, today.tm_mon + 1, today.tm_year + 1900);
-    printf(LINE "------------------------------------------  \n" RESET);
+    printf(LINE "---------------------------------------------------------------------------\n" RESET);
 
     for (i = 0; i < p->count; i++) {
         if (p->list[i].status != 1) {
@@ -63,7 +63,7 @@ void viewDailyRevenue(ParkingLot *p) {
         printf("  Total revenue        : " YELLOW "%.0f VND\n" RESET, totalRevenue);
     }
 
-    printf(LINE "==========================================\n" RESET);
+    printf(LINE "===========================================================================\n"  RESET);
 }
 
 void exportRevenueReport(ParkingLot *p) {
