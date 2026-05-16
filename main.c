@@ -46,7 +46,7 @@ int main() {
                 break;
 
             case 2:
-                removeVehicle(&parkingLot); 
+                removeVehicle(&parkingLot);
                 break;
 
             case 3:
@@ -91,13 +91,13 @@ int main() {
                 break;
 
             case 13:
-                printf("Delete vehicle\n");
+                deleteVehicle(&parkingLot);
                 break;
 
             case 0:
                 saveData(&parkingLot, "Exiting program...");
                 saveAccounts(accounts, accountCount);
-                printf("Exit program.\n");
+                printf("Exit the program.\n");
                 break;
         }
 
