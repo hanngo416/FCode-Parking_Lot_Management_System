@@ -1,7 +1,7 @@
 #include <stdio.h>
-
 #include "include/types.h"
 #include "include/parking.h"
+#include "include/billing.h"
 #include "include/fileio.h"
 #include "include/report.h"
 #include "include/utils.h"
@@ -26,10 +26,11 @@ int main() {
     }
 
     do {
+
         int role = accounts[currentIndex].role;
 
-        printf("\n========= PARKING LOT MANAGEMENT =========\n");
-        printf("User: %s | Role: %s\n",
+        printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
+        printf(YELLOW "      User: %s | Role: %s\n" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
@@ -64,12 +65,11 @@ int main() {
                 viewDailyRevenue(&parkingLot);
                 break;
             case 7: 
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
-
-            case 8: 
-                printf("Edit price list by vehicle type (Coming soon).\n");
+            case 8:
+                updatePrice(&parkingLot);
                 break;
 
             case 9: 
@@ -91,11 +91,11 @@ int main() {
                 break;
 
             case 13:
-                printf("Delete vehicle\n");
+                deleteVehicle(&parkingLot);
                 break;
 
             case 0:
-                saveData(&parkingLot);
+                saveData(&parkingLot, "Exiting program...");
                 saveAccounts(accounts, accountCount);
                 printf("Exit program.\n");
                 break;
