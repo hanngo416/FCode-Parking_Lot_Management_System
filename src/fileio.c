@@ -78,7 +78,7 @@ void saveData(ParkingLot *p, const char *actionMsg) {
 void logDeletedVehicle(const Vehicle *v) {
     FILE *fp = fopen("data/deleted_vehicles.dat", "a");
     if (fp == NULL) {
-        printf(RED "ERROR: Cannot open deleted_vehicles.dat for logging!\n" RESET);
+        printf(RED "Cannot open deleted_vehicles.dat for logging!\n" RESET);
         return;
     }
 

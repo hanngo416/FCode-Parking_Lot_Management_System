@@ -26,7 +26,7 @@ int login(Account accounts[], int accountCount) {
     int index = -1;
     while (index == -1) {
         getString("Enter username: ", username, sizeof(username));
-
+        trim(username);
         
         index = findAccountByUsername(accounts, accountCount, username);
 
@@ -59,10 +59,10 @@ void printMenuByRole(int role) {
     printf("3. View parked vehicles\n");
     printf("4. Search a vehicle\n");
     printf("5. Change my password\n");
+    printf("6. Save data\n");
 
     if (role == ROLE_ADMIN) {
-    printf("6. View daily report\n");
-    printf("7. Save data\n");
+    printf("7. View daily report\n");
     printf("8. Edit price list by vehicle type\n");
     printf("9. Export revenue report (.txt)\n");
     printf("10. Create staff account\n");
@@ -121,6 +121,7 @@ void createStaffAccount(Account accounts[], int *accountCount) {
 
     while (1) {
         getString("Enter username: ", username, sizeof(username));
+        trim(username);
         if (isValidUsername(username)) break;
     }
 
@@ -154,6 +155,7 @@ void updateUserRole(Account accounts[], int accountCount) {
     printf(LINE "\n=====" TITLE "CHANGE USER ROLE" RESET LINE "=====\n" RESET);
 
     getString("Enter username: ", username, sizeof(username));
+    trim(username);
 
     int index = findAccountByUsername(accounts, accountCount, username);
 
@@ -194,13 +196,14 @@ void listAccountsNPass(Account accounts[], int accountCount) {
     for (int i = 0; i < accountCount; i++) {
 
         printf("Username: %s\n", accounts[i].username);
+        printf("Password: %s\n", accounts[i].password);
 
         if (accounts[i].role == ROLE_ADMIN) {
-            printf(YELLOW "Role: ADMIN\n" RESET);
+            printf( "Role: ADMIN\n" );
         } else {
-            printf(YELLOW "Role: STAFF\n" RESET);
+            printf( "Role: STAFF\n" );
         }
-        printf("Password: %s\n", accounts[i].password);
+        
         printf(LINE "------------------------\n" RESET);
     }
 }

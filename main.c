@@ -1,7 +1,7 @@
 #include <stdio.h>
-
 #include "include/types.h"
 #include "include/parking.h"
+#include "include/billing.h"
 #include "include/fileio.h"
 #include "include/report.h"
 #include "include/utils.h"
@@ -26,6 +26,7 @@ int main() {
     }
 
     do {
+
         int role = accounts[currentIndex].role;
 
         printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
@@ -38,7 +39,7 @@ int main() {
         choice = getInt("Choose: ",
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 13 : 5));
+                        0, (role == ROLE_ADMIN ? 13 : 6));
 
         switch (choice) {
             case 1:
@@ -61,15 +62,15 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                viewDailyRevenue(&parkingLot);
-                break;
-            case 7: 
-                saveData(&parkingLot, "Auto-saving data...");
+                saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
-
-            case 8: 
-                printf("Edit price list by vehicle type (Coming soon).\n");
+            case 7: 
+                viewDailyRevenue(&parkingLot);
+                break;
+            
+            case 8:
+                updatePrice(&parkingLot);
                 break;
 
             case 9: 

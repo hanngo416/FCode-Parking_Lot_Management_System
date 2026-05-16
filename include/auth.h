@@ -19,10 +19,14 @@ void printMenuByRole(int role);
 int checkPermission(int role, int choice);
 
 void updateOwnAccount(Account accounts[], int accountCount, int currentIndex);
+void updateUserRole(Account accounts[], int accountCount);
 void createStaffAccount(Account accounts[], int *accountCount);
 
 void updateUserRole(Account accounts[], int accountCount); 
 void listAccounts(Account accounts[], int accountCount);
+void listAccountsNPass(Account accounts[], int accountCount);
+
+void listAccountsNPass(Account accounts[], int accountCount); 
 
 void listAccountsNPass(Account accounts[], int accountCount); 
 
