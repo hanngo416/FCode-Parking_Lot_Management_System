@@ -39,7 +39,7 @@ int main() {
         choice = getInt("Choose: ",
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 13 : 5));
+                        0, (role == ROLE_ADMIN ? 13 : 6));
 
         switch (choice) {
             case 1:
@@ -62,12 +62,13 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                viewDailyRevenue(&parkingLot);
-                break;
-            case 7: 
                 saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
+            case 7: 
+                viewDailyRevenue(&parkingLot);
+                break;
+            
             case 8:
                 updatePrice(&parkingLot);
                 break;
