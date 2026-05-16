@@ -23,33 +23,20 @@ void loadData(ParkingLot *p) {
 
     while (p->count < MAX_VEHICLES) {
         int type, status;
-<<<<<<< HEAD
-        long long entry, exit_t;
-        double fee;
-        char plate[20];
-
-        int result = fscanf(fp, "%11[^|]|%d|%lld|%lld|%lf|%d\n",
-=======
         long entry, exit_t; 
         double fee;
         char plate[20];
 
         int result = fscanf(fp, "%19[^|]|%d|%ld|%ld|%lf|%d\n",
->>>>>>> origin/NTH
                             plate, &type, &entry, &exit_t, &fee, &status);
 
         if (result == EOF || result != 6) {
             break;
         }
 
-<<<<<<< HEAD
-        strncpy(p->list[p->count].licensePlate, plate, 11);
-        p->list[p->count].licensePlate[11] = '\0';
-=======
         strncpy(p->list[p->count].licensePlate, plate, sizeof(p->list[p->count].licensePlate) - 1);
         p->list[p->count].licensePlate[sizeof(p->list[p->count].licensePlate) - 1] = '\0';
         
->>>>>>> origin/NTH
         p->list[p->count].type = (VehicleType)type;
         p->list[p->count].entryTime = (time_t)entry;
         p->list[p->count].exitTime = (time_t)exit_t;
@@ -61,9 +48,8 @@ void loadData(ParkingLot *p) {
 
     fclose(fp);
 
-    printf(LINE "========================================\n" RESET);
-    printf(GREEN "  System Data loaded: %d vehicle(s) found.\n" RESET, p->count);
-    printf(LINE "========================================\n" RESET);
+    printf(GREEN "  System Data loaded: %d vehicle(s) found.\n\n" RESET, p->count);
+    
 }
 
 void saveData(ParkingLot *p, const char *actionMsg) {

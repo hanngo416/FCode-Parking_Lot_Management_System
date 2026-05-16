@@ -2,10 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
-<<<<<<< HEAD
-=======
 #include <ctype.h>
->>>>>>> origin/NTH
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/billing.h"
