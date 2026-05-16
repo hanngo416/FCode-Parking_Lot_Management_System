@@ -186,7 +186,7 @@ void listVehicles(ParkingLot *p) {
     printf(LINE "------------------------------------------------------------------------------\n");
     
     if (choice == 4) {
-        FILE *f = fopen("delete_vehicles.dat", "r");
+        FILE *f = fopen("deleted_vehicles.dat", "r");
         if (f == NULL) {
             printf(RED "No deleted vehicles history file found!\n" RESET);
         } else {
