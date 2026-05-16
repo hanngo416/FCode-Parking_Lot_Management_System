@@ -40,7 +40,6 @@ void addVehicle(ParkingLot *p) {
 
     getString("Enter license plate: ", plate, sizeof(plate));
     toUpperCase(plate);
-    printf("License plate: %s\n", plate);
 
     if (!isValidLicensePlate(plate)) {
         printf("Invalid license plate! Format: SSCC-SSSSS (S: number, C: letter)\n");
@@ -86,7 +85,40 @@ void removeVehicle(ParkingLot *p) {
     char plate[20];
 
     printf("\n--- CHECK OUT VEHICLE ---\n");
-    listVehicles(p);
+    printf("\nCurrent vehicles in yard:\n");
+
+    printf("\033[1;36m%-5s | %-15s | %-15s\033[0m\n",
+       "No", "LICENSE PLATE", "VEHICLE TYPE");
+
+    printf("--------------------------------------------------\n");
+
+    int count = 0;
+
+    for (int i = 0; i < p->count; i++) {
+
+        if (p->list[i].status == PARKING) {
+
+            count++;
+
+                const char *typeStr;
+
+        if (p->list[i].type == MOTO)
+            typeStr = "Motorbike";
+        else if (p->list[i].type == CAR)
+            typeStr = "Car";
+        else if (p->list[i].type == BUS)
+            typeStr = "Bus";
+        else
+            typeStr = "Other";
+
+        printf("%-5d | %-15s | %-15s\n",
+               count,
+               p->list[i].licensePlate,
+               typeStr);
+    }
+}
+
+printf("--------------------------------------------------\n");    
     if (p->count == 0) {
          printf("No vehicles in parking lot.\n");
          return;
@@ -116,7 +148,7 @@ void removeVehicle(ParkingLot *p) {
     v->fee    = calculateFee(*v, p);
     v->status = EXITED;
 
-    printBill(*v);
+    printBill(*v, p);
 }
 
 void listVehicles(ParkingLot *p) {

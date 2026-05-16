@@ -30,4 +30,5 @@ int isValidEntryExitTime(time_t entryTime, time_t exitTime);
 int isValidEntryTime(time_t entryTime);
 int isValidUsername(const char *username);
 int isValidPassword(const char *password);
+void printMoney(double amount);
 #endif

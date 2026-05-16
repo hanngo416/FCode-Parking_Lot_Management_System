@@ -255,3 +255,22 @@ int isValidPassword(const char *password) {
 
     return valid;
 }
+
+    void printMoney(double amount) {
+
+    long long value = (long long)amount;
+
+    if (value >= 1000000)
+        printf("%lld.%03lld.%03lld",
+               value / 1000000,
+               (value / 1000) % 1000,
+               value % 1000);
+
+    else if (value >= 1000)
+        printf("%lld.%03lld",
+               value / 1000,
+               value % 1000);
+
+    else
+        printf("%lld", value);
+}
