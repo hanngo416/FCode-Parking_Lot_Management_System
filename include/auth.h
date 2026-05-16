@@ -21,10 +21,10 @@ int checkPermission(int role, int choice);
 void updateOwnAccount(Account accounts[], int accountCount, int currentIndex);
 void updateUserRole(Account accounts[], int accountCount);
 void createStaffAccount(Account accounts[], int *accountCount);
-void promoteToAdmin(Account accounts[], int accountCount);
+
+void updateUserRole(Account accounts[], int accountCount); 
 void listAccounts(Account accounts[], int accountCount);
 void listAccountsNPass(Account accounts[], int accountCount);
-
 int findAccountByUsername(Account accounts[], int accountCount, char username[]);
 
 void loadAccounts(Account accounts[], int *accountCount);

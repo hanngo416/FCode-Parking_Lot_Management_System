@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "include/types.h"
 #include "include/parking.h"
 #include "include/billing.h"
@@ -29,8 +30,8 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf("\n========= PARKING LOT MANAGEMENT =========\n");
-        printf("User: %s | Role: %s\n",
+        printf(TITLE "\n========= PARKING LOT MANAGEMENT =========\n" RESET);
+        printf(YELLOW "      User: %s | Role: %s\n" RESET,
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
@@ -39,7 +40,7 @@ int main() {
         choice = getInt("Choose: ",
                         "Invalid menu option.",
                         "Invalid input.",
-                        0, (role == ROLE_ADMIN ? 13 : 5));
+                        0, (role == ROLE_ADMIN ? 13 : 6));
 
         switch (choice) {
             case 1:
@@ -62,13 +63,15 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                viewDailyRevenue(&parkingLot);
+                saveData(&parkingLot, "Data saved successfully.");
+                printf("Data saved successfully.\n");
                 break;
             case 7: 
                 saveData(&parkingLot, "Data saved successfully.");
                 printf("Data saved successfully.\n");
                 break;
-            case 8:
+
+            case 8: 
                 updatePrice(&parkingLot);
                 break;
 
@@ -91,11 +94,11 @@ int main() {
                 break;
 
             case 13:
-                printf("Delete vehicle\n");
+                deleteVehicle(&parkingLot);
                 break;
 
             case 0:
-                saveData(&parkingLot, "Data saved successfully.");
+                saveData(&parkingLot, "Exit program...");
                 saveAccounts(accounts, accountCount);
                 printf("Exit program.\n");
                 break;

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
+#include <math.h>
+#include <ctype.h>
 #include "../include/types.h"
 #include "../include/parking.h"
 #include "../include/billing.h"
@@ -28,14 +31,14 @@ int findVehicleIndex(ParkingLot *p, const char *plate) {
 
 void addVehicle(ParkingLot *p) {
     if (p->count >= MAX_VEHICLES) {
-        printf("Parking lot is full!\n");
+        printf(RED "Parking lot is full!\n" RESET);
         return;
     }
 
     char plate[20];
     int type;
 
-    printf("\n--- ADD VEHICLE ---\n");
+    printf(LINE "\n===================== " TITLE "ADD VEHICLE" RESET LINE " =====================" RESET "\n");
 
     getString("Enter license plate: ", plate, sizeof(plate));
     toUpperCase(plate);
@@ -46,7 +49,7 @@ void addVehicle(ParkingLot *p) {
     }
 
     if (isDuplicateLicensePlate(p->list, p->count, plate)) {
-        printf("Vehicle already exists!\n");
+        printf(RED "Vehicle already exists!\n" RESET);
         return;
     }
 
@@ -76,7 +79,7 @@ void addVehicle(ParkingLot *p) {
     v->status    = PARKING;
     p->count++;
 
-    printf("Vehicle added successfully!\n");
+    printf(GREEN "Vehicle added successfully!\n" RESET);
     printf("Entry time: %s", ctime(&v->entryTime));
 }
 
@@ -126,13 +129,13 @@ printf("--------------------------------------------------\n");
     toUpperCase(plate);
 
     if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate!\n");
+        printf(RED "Invalid license plate!\n" RESET);
         return;
     }
 
     int idx = findVehicleIndex(p, plate);
     if (idx == -1) {
-        printf("Vehicle not found or already exited!\n");
+        printf(RED "Vehicle not found or already exited!\n" RESET);
         return;
     }
 
@@ -140,7 +143,7 @@ printf("--------------------------------------------------\n");
     v->exitTime = time(NULL);
 
     if (v->exitTime <= v->entryTime) {
-        printf("Time error!\n");
+        printf(RED "Time error!\n" RESET);
         return;
     }
 
@@ -151,41 +154,146 @@ printf("--------------------------------------------------\n");
 }
 
 void listVehicles(ParkingLot *p) {
-    int count_in_yard = 0;
-    printf(LINE "===================== " TITLE "VEHICLE LIST" RESET LINE " =====================" RESET "\n");
-    printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
-    printf(LINE "----------------------------------------------------------------------\n");
+    int choice;
+    while (1) {
+        printf(LINE "\n============================== " TITLE "DISPLAY OPTIONS" RESET LINE " ==============================" RESET "\n");
+        printf("1. Vehicles currently in yard\n");
+        printf("2. Vehicles already exited\n");
+        printf("3. All transaction history\n");
+        printf("4. Deleted vehicles history (Recycle Bin)\n");
+        printf(LINE "------------------------------------------------------------------------------\n");
+        printf(YELLOW "Enter your choice: " RESET);
+        
+        if (scanf("%d", &choice) != 1) 
+        {
+            printf(RED "Error: Invalid input! Please enter a number (1, 2, 3, or 4).\n" RESET);
+            while(getchar() != '\n'); 
+            continue;                 
+        } 
+        while(getchar() != '\n'); 
 
-    int i;
-    for (i = 0; i < p->count; i++) {
-        if (p->list[i].status == PARKING) {
-            count_in_yard++;
-
-            const char *typeStr;
-            if      (p->list[i].type == MOTO) typeStr = "Motorbike";
-            else if (p->list[i].type == CAR)  typeStr = "Car";
-            else if (p->list[i].type == BUS)  typeStr = "Bus";
-            else                              typeStr = "Other";
-
-            char timeStr[26];
-            char *rawTime = ctime(&p->list[i].entryTime);
-            if (rawTime != NULL) {
-                strncpy(timeStr, rawTime, 24);
-                timeStr[24] = '\0';
-            } else {
-                strcpy(timeStr, "N/A");
-            }
-
-
-            printf(RESET "%-5d | %-15s | %-15s | %-25s\n", count_in_yard, p->list[i].licensePlate, typeStr, timeStr);
-        }
+        if (choice < 1 || choice > 4) 
+        {
+            printf(RED "Error: Choice must be 1, 2, 3, or 4. Please try again.\n" RESET);
+            continue; 
+        } 
+        break;
     }
 
-    printf(LINE "----------------------------------------------------------------------\n");
-    
+    int count_in_yard = 0;
+    time_t currentTime = time(NULL); 
+
+    printf(LINE "\n================================ " TITLE "VEHICLE LIST" RESET LINE " ================================" RESET "\n\n");
+    if (choice == 3 || choice == 4) 
+    {
+        printf("\033[1;36m%-5s | %-15s | %-15s | %-10s | %-25s\033[0m\n", 
+               "STT", "LICENSE PLATE", "VEHICLE TYPE", "STATUS", "ENTRY TIME");
+    } 
+    else 
+    {
+        printf("\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n", 
+               "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
+    }
+    printf(LINE "------------------------------------------------------------------------------\n");
+    if (choice == 4) {
+        FILE *f = fopen("delete_vehicles.dat", "r");
+        if (f == NULL) {
+            printf(RED "No deleted vehicles history file found!\n" RESET);
+        } else {
+            char line[150];
+            while (fgets(line, sizeof(line), f)) {
+                char plate[15];
+                int type, status;
+                time_t entryTime;
+                float fee;
+                time_t outTime;
+
+                if (sscanf(line, "%[^|]|%d|%ld|%d|%f|%ld", plate, &type, &entryTime, &status, &fee, &outTime) == 6) {
+                    count_in_yard++;
+
+                    const char *typeStr;
+                    if      (type == MOTO) typeStr = "Motorbike";
+                    else if (type == CAR)  typeStr = "Car";
+                    else if (type == BUS)  typeStr = "Bus";
+                    else                   typeStr = "Other";
+
+                    char timeStr[26];
+                    char *rawTime = ctime(&entryTime);
+                    if (rawTime != NULL) {
+                        strncpy(timeStr, rawTime, 24);
+                        timeStr[24] = '\0';
+                    } else { 
+                        strcpy(timeStr, "N/A"); 
+                    }
+
+                    printf(RESET "%-5d | %-15s | %-15s | %-10s | %-25s\n", 
+                           count_in_yard, plate, typeStr, "Deleted", timeStr);
+                }
+            }
+            fclose(f);
+        }
+    } 
+    else 
+    {
+        int i;
+        for (i = 0; i < p->count; i++) 
+        {
+            bool shouldPrint = false;
+            if (choice == 1 && p->list[i].status == PARKING) shouldPrint = true;
+            else if (choice == 2 && p->list[i].status == EXITED) shouldPrint = true;
+            else if (choice == 3) shouldPrint = true;
+
+            if (shouldPrint) 
+            {
+                count_in_yard++;
+
+                bool isOver72h = false;
+                if (p->list[i].status == PARKING) 
+                {
+                    double seconds = difftime(currentTime, p->list[i].entryTime);
+                    if (seconds >= 72 * 3600) isOver72h = true;
+                }
+
+                const char *typeStr;
+                if      (p->list[i].type == MOTO) typeStr = "Motorbike";
+                else if (p->list[i].type == CAR)  typeStr = "Car";
+                else if (p->list[i].type == BUS)  typeStr = "Bus";
+                else                              typeStr = "Other";
+
+                char timeStr[26];
+                char *rawTime = ctime(&p->list[i].entryTime);
+                if (rawTime != NULL) 
+                {
+                    strncpy(timeStr, rawTime, 24);
+                    timeStr[24] = '\0';
+                } 
+                else 
+                { 
+                    strcpy(timeStr, "N/A"); 
+                }
+
+                const char *rowColor = isOver72h ? RED : RESET;
+
+                if (choice == 3) 
+                {
+                    const char *statusStr = (p->list[i].status == PARKING) ? "In Yard" : "Exited";
+                    printf("%s%-5d | %-15s | %-15s | %-10s | %-25s%s\n", 
+                    rowColor, count_in_yard, p->list[i].licensePlate, typeStr, statusStr, timeStr, (isOver72h ? " (Over 72h!)" : ""));
+                } 
+                else 
+                {
+                    printf("%s%-5d | %-15s | %-15s | %-25s%s\n", 
+                    rowColor, count_in_yard, p->list[i].licensePlate, typeStr, timeStr, (isOver72h ? " (Over 72h!)" : ""));
+                }
+                printf(RESET); 
+            }
+        }
+    }
+   
     float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
     if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
-    else if (ratio < 80) 
+    printf(LINE "------------------------------------------------------------------------------\n");
+    if (ratio < 80) 
     {
         printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
         printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
@@ -200,28 +308,34 @@ void listVehicles(ParkingLot *p) {
         printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
         printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
     }
-
-
-    
-    if      (count_in_yard == 0) printf("\033[1;31mEmpty!\033[0m\n");
-    else if (ratio < 80)         printf("\033[1;33mStatus: %.2f%% Normal\033[0m\n",      ratio);
-    else if (ratio < 100)        printf("\033[1;31mStatus: %.2f%% Nearly full\033[0m\n", ratio);
-    else                         printf("\033[1;31mStatus: %.2f%% Full\033[0m\n",        ratio);
-
 }
-void searchVehicle(ParkingLot *p) {
+
+void searchVehicle(ParkingLot *p) 
+{
     char key[15];
     int found_count = 0;
 
-    printf(LINE "===================== " TITLE "SEARCH VEHICLE" RESET LINE " =====================" RESET "\n");
+    printf(LINE "============================== " TITLE "SEARCH VEHICLE" RESET LINE " ===============================" RESET "\n");
     getString("Enter license plate keyword: ", key, sizeof(key));
 
-    printf("\n\033[1;36m%-5s | %-15s | %-15s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");    
-    printf("-------------------------------------------------------------------------------------\n");
+    char upperKey[15];
+    int k = 0;
+    while (key[k] != '\0') 
+    {
+        upperKey[k] = toupper((unsigned char)key[k]);
+        k++;
+    }
+    upperKey[k] = '\0'; 
+    printf("\n\n");
+    printf(LINE "============================= " TITLE "SUGGESTED RESULTS" RESET LINE " =============================" RESET "\n");
+    printf("\n\033[1;36m%-5s | %-15s | %-15s | %-10s | %-25s\033[0m\n",  "STT", "LICENSE PLATE", "VEHICLE TYPE", "STATUS", "ENTRY TIME");    
+    printf(LINE "------------------------------------------------------------------------------------\n" RESET);
 
     int i;
-    for (i = 0; i < p->count; i++) {
-        if (strstr(p->list[i].licensePlate, key) != NULL) {
+    for (i = 0; i < p->count; i++) 
+    {
+        if (strstr(p->list[i].licensePlate, upperKey) != NULL) 
+        {
             found_count++;
 
             const char *typeStr;
@@ -232,23 +346,62 @@ void searchVehicle(ParkingLot *p) {
 
             char timeStr[26];
             char *rawTime = ctime(&p->list[i].entryTime);
-            if (rawTime != NULL) {
+            if (rawTime != NULL) 
+            {
                 strncpy(timeStr, rawTime, 24);
                 timeStr[24] = '\0';
-            } else {
+            } 
+            else 
+            {
                 strcpy(timeStr, "N/A");
             }
 
-            printf(RESET "%-5d | %-15s | %-15s | %-25s | %s\n",
+            printf(RESET "%-5d | %-15s | %-15s | %-10s | %-25s\n",
                    found_count,
-                   p->list[i].licensePlate,
+                   p->list[i].licensePlate, 
                    typeStr,
-                   timeStr,
-                   (p->list[i].status == PARKING ? "Currently parked" : "Already exited"));
+                   (p->list[i].status == PARKING ? "In Yard" : "Exited"),
+                   timeStr);
+        }
+    }
+    if (found_count == 0) 
+    {
+        printf(RED "No vehicle found matching '%s'.\n\n" RESET, key);
+    }
+}
+
+
+void deleteVehicle(ParkingLot *p) 
+{
+    char plate[20];
+    printf("\n" LINE "======================== " TITLE "DELETE VEHICLE (ADMIN ONLY)" RESET LINE " ========================" RESET "\n");
+    getString(YELLOW "Enter license plate to permanently delete: " RESET, plate, sizeof(plate));
+
+    int targetIdx = -1;
+    for (int i = 0; i < p->count; i++) 
+    {
+        if (strcmp(p->list[i].licensePlate, plate) == 0) 
+        {
+            targetIdx = i;
+            break;
         }
     }
 
-    if (found_count == 0)
-        printf("No vehicle found matching '%s'.\n", key);
+    if (targetIdx == -1) 
+    {
+        printf(RED "Error: Vehicle '%s' not found in the system!\n" RESET, plate);
+        return;
     }
 
+    logDeletedVehicle(&p->list[targetIdx]);
+
+    for (int i = targetIdx; i < p->count - 1; i++) 
+    {
+        p->list[i] = p->list[i + 1];
+    }
+    p->count--;
+
+    printf(GREEN "Vehicle '%s' has been permanently deleted and logged.\n" RESET, plate);
+    
+    saveData(p, "Admin permanently deleted a vehicle");
+}

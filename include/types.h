@@ -24,7 +24,7 @@ typedef struct {
 } Vehicle;
 
 typedef struct {
-    VehicleType type;
+    VehicleType type;   
     char typeName[20];
     double defaultPrice;
     double price;

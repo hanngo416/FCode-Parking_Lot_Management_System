@@ -98,6 +98,26 @@ void toUpperCase(char *str) {
         str[i] = toupper((unsigned char)str[i]);
     }
 }
+
+void trim(char *str) {
+    int start = 0;
+    int end = strlen(str) - 1;
+    while (isspace((unsigned char)str[start])) {
+        start++;
+    }
+    if (str[start] == '\0') {
+        str[0] = '\0';
+        return;
+    }
+    while (end > start && isspace((unsigned char)str[end])) {
+        end--;
+    }
+    int i;
+    for (i = 0; start <= end; i++, start++) {
+        str[i] = str[start];
+    }
+    str[i] = '\0';
+}
 int isEmpty(const char *str) {
     return str == NULL || strlen(str) == 0;
 }

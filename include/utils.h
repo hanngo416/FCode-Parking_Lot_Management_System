@@ -4,9 +4,9 @@
 #define GREEN "\033[0;32m" //NORMAL, SUCCESS
 #define YELLOW "\033[0;33m" //HIGHLIGHT, NOTE
 #define RED "\033[0;31m" //ERROR, WARNING
-#define TITLE "\033[1;4;36m" //TITLE, HEADING
+#define TITLE "\033[1;36m" //TITLE, HEADING
 #define LINE "\033[38;2;70;130;180m" //LINE, BORDER
-#define RESET   "\033[0m"
+#define RESET   "\033[0m" //reset cho khoi lan mau
 int getInt(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max);
 
 int getIntUpdate(const char *messageInfo,const char *messageErrorOutOfRange,const char *messageErrorNumber,int min, int max,int oldValue);
@@ -17,6 +17,7 @@ void getString(const char *messageInfo,char *buffer,int maxLen);
 
 void getStringUpdate(const char *messageInfo,char *buffer,int maxLen,const char *oldValue);
 void toUpperCase(char *str);
+void trim(char *str);
 int isEmpty(const char *str);
 
 int isValidLicensePlate(const char *plate);
