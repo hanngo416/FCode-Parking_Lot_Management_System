@@ -93,9 +93,30 @@ void getStringUpdate(const char *messageInfo,
     }
 }
 void toUpperCase(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
+	int i; 
+    for (i = 0; str[i] != '\0'; i++) {
         str[i] = toupper((unsigned char)str[i]);
     }
+}
+
+void trim(char *str) {
+    int start = 0;
+    int end = strlen(str) - 1;
+    while (isspace((unsigned char)str[start])) {
+        start++;
+    }
+    if (str[start] == '\0') {
+        str[0] = '\0';
+        return;
+    }
+    while (end > start && isspace((unsigned char)str[end])) {
+        end--;
+    }
+    int i;
+    for (i = 0; start <= end; i++, start++) {
+        str[i] = str[start];
+    }
+    str[i] = '\0';
 }
 int isEmpty(const char *str) {
     return str == NULL || strlen(str) == 0;
@@ -120,8 +141,9 @@ int isValidLicensePlate(const char *plate) {
     if (plate[4] != '-') {
         return 0;
     }
-
-    for (int i = 5; i < 10; i++) {
+	
+	int i; 
+    for (i = 5; i < 10; i++) {
         if (!isdigit(plate[i])) {
             return 0;
         }
@@ -131,7 +153,8 @@ int isValidLicensePlate(const char *plate) {
 }
 
 int isDuplicateLicensePlate(Vehicle vehicles[], int count, const char *plate) {
-    for (int i = 0; i < count; i++) {
+	int i; 
+    for (i = 0; i < count; i++) {
         if (vehicles[i].status == 0 &&
             strcmp(vehicles[i].licensePlate, plate) == 0) {
             return 1;
@@ -204,20 +227,20 @@ int isValidEntryExitTime(time_t entryTime, time_t exitTime) {
     return entryTime > 0 && exitTime > entryTime;
 }
 int isValidUsername(const char *username) {
-    int len;
-
     if (isEmpty(username)) {
+        printf("Error: Username cannot be empty.\n");
         return 0;
     }
 
-    len = strlen(username);
-
+    int len = strlen(username);
     if (len < 2 || len > 25) {
+        printf("Error: Username length must be between 2 and 25 characters.\n");
         return 0;
     }
 
     for (int i = 0; i < len; i++) {
-        if (!isalnum(username[i])) {
+        if (!isalnum((unsigned char)username[i])) {
+            printf("Error: Username can only contain letters and numbers.\n");
             return 0;
         }
     }
@@ -225,30 +248,49 @@ int isValidUsername(const char *username) {
     return 1;
 }
 int isValidPassword(const char *password) {
-    int len;
-    int hasUpper = 0;
-    int hasSpecial = 0;
-
     if (isEmpty(password)) {
+        printf("Error: Password cannot be empty.\n");
         return 0;
     }
 
-    len = strlen(password);
-
-    if (len < 8) {
+    int len = strlen(password);
+    if (len < 6 || len > 20) {
+        printf("Error: Password length must be between 6 and 20 characters.\n");
         return 0;
     }
 
+    int hasUpper = 0, hasLower = 0, hasDigit = 0;
     for (int i = 0; i < len; i++) {
-        if (isupper(password[i])) {
-            hasUpper = 1;
-        }
-
-        if (!isalnum(password[i])) {
-            hasSpecial = 1;
-        }
+        unsigned char c = (unsigned char)password[i];
+        if (isupper(c)) hasUpper = 1;
+        if (islower(c)) hasLower = 1;
+        if (isdigit(c)) hasDigit = 1;
     }
 
-    return hasUpper && hasSpecial;
+    int valid = 1;
+    if (!hasUpper || !hasLower || !hasDigit ) {
+        printf("Invalid! Password must contain at least one uppercase letter, one lowercase letter and one digit.\n");
+        valid = 0;
+    }
+
+    return valid;
 }
-//trong quá trình làm nếu cần thêm hàm validate nào thì nhắn c 
+
+    void printMoney(double amount) {
+
+    long long value = (long long)amount;
+
+    if (value >= 1000000)
+        printf("%lld.%03lld.%03lld",
+               value / 1000000,
+               (value / 1000) % 1000,
+               value % 1000);
+
+    else if (value >= 1000)
+        printf("%lld.%03lld",
+               value / 1000,
+               value % 1000);
+
+    else
+        printf("%lld", value);
+}

@@ -1,6 +1,6 @@
 [Project]
-filename=Parking_Lot_Management_System.dev
-name=Parking_Lot_Management_System
+FileName=Parking_Lot_Management_System.dev
+Name=Parking_Lot_Management_System
 Type=1
 Ver=2
 ObjFiles=
@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;12;0;0;0
-UnitCount=10
+UnitCount=14
 
 [VersionInfo]
 Major=1
@@ -131,7 +131,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=src\searchingVehicle.c
+FileName=src\auth.c
 CompileCpp=0
 Folder=
 Compile=1
@@ -141,7 +141,17 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=src\viewVehicleList.c
+FileName=src\fileio.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit11]
+FileName=src\report.c
 CompileCpp=0
 Folder=
 Compile=1
