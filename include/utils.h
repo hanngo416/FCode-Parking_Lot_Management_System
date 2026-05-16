@@ -17,6 +17,7 @@ void getString(const char *messageInfo,char *buffer,int maxLen);
 
 void getStringUpdate(const char *messageInfo,char *buffer,int maxLen,const char *oldValue);
 void toUpperCase(char *str);
+void trim(char *str);
 int isEmpty(const char *str);
 
 int isValidLicensePlate(const char *plate);

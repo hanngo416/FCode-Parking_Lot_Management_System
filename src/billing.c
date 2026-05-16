@@ -11,7 +11,6 @@ double calculateFee(Vehicle v, ParkingLot *p) {
 
     if (hours < 1) hours = 1;
 
-    /* MOTO=0, CAR=1, BUS=2 matches prices[] index directly */
     double fee = hours * p->prices[v.type].price;
 
     if (hours > 72)
