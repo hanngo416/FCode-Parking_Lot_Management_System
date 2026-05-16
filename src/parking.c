@@ -2,6 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
+#include <math.h>
 #include <ctype.h>
 #include "../include/types.h"
 #include "../include/parking.h"
@@ -157,7 +158,7 @@ void listVehicles(ParkingLot *p) {
         {
             printf(RED "Error: Invalid input! Please enter a number (1, 2, 3, or 4).\n" RESET);
             while(getchar() != '\n'); 
-            continue;                
+            continue;                 
         } 
         while(getchar() != '\n'); 
 
@@ -184,7 +185,6 @@ void listVehicles(ParkingLot *p) {
                "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
     }
     printf(LINE "------------------------------------------------------------------------------\n");
-    
     if (choice == 4) {
         FILE *f = fopen("delete_vehicles.dat", "r");
         if (f == NULL) {

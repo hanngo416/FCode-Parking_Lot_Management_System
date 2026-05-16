@@ -48,7 +48,7 @@ void loadData(ParkingLot *p) {
 
     fclose(fp);
 
-    printf(GREEN "  System Data loaded: %d vehicle(s) found.\n\n" RESET, p->count);
+    printf(GREEN "  System Data loaded: %d vehicle(s) found.\n" RESET, p->count);
     
 }
 

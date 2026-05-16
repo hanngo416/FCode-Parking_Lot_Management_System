@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "include/types.h"
 #include "include/parking.h"
 #include "include/billing.h"
@@ -29,7 +30,7 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf(YELLOW "\n\n      User: %s | Role: %s" RESET,
+        printf(YELLOW "\n\n      User: %s | Role: %s" RESET "\n",
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
