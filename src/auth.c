@@ -207,7 +207,11 @@ void listAccountsNPass(Account accounts[], int accountCount) {
             printf( "Role: STAFF\n" );
         }
         
+<<<<<<< HEAD
         printf(LINE "-----------------------------------------------------------------------------\n" RESET);
+=======
+        printf(LINE "------------------------\n" RESET);
+>>>>>>> NTU
     }
 }
 
