@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "include/types.h"
 #include "include/parking.h"
@@ -8,7 +9,9 @@
 #include "include/utils.h"
 #include "include/auth.h"
 
+
 int main() {
+    system("chcp 65001 > nul"); 
     ParkingLot parkingLot;
     Account accounts[MAX_ACCOUNTS];
 

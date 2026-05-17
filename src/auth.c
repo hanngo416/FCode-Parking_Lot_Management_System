@@ -51,9 +51,9 @@ int login(Account accounts[], int accountCount) {
 
 void printMenuByRole(int role) {
  
-    printf(LINE "\n============================================================================\n" RESET);
-    printf(TITLE "[                            PARKING LOT MANAGEMENT                        ]" "\n" RESET);
-    printf(LINE "============================================================================\n"  RESET);
+    printf("╔════════════════════════════════════════╗\n");
+    printf("║        PARKING LOT MANAGEMENT          ║\n");
+    printf("╚════════════════════════════════════════╝\n");
 
     printf("1. Check in a vehicle\n");
     printf("2. Check out a vehicle\n");
