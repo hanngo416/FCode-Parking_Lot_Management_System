@@ -2,6 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
+#include <math.h>
 #include <ctype.h>
 #include "../include/types.h"
 #include "../include/parking.h"
@@ -139,7 +140,7 @@ void removeVehicle(ParkingLot *p) {
 
     printBill(*v, p);
     
-    saveData(p, "Auto-save after Check-out");
+    saveData(p, "");
 }
 
 void listVehicles(ParkingLot *p) {
@@ -157,7 +158,7 @@ void listVehicles(ParkingLot *p) {
         {
             printf(RED "Error: Invalid input! Please enter a number (1, 2, 3, or 4).\n" RESET);
             while(getchar() != '\n'); 
-            continue;                
+            continue;                 
         } 
         while(getchar() != '\n'); 
 
@@ -184,9 +185,8 @@ void listVehicles(ParkingLot *p) {
                "STT", "LICENSE PLATE", "VEHICLE TYPE", "ENTRY TIME");
     }
     printf(LINE "------------------------------------------------------------------------------\n");
-    
     if (choice == 4) {
-        FILE *f = fopen("data/deleted_vehicles.dat", "r");
+        FILE *f = fopen("deleted_vehicles.dat", "r");
         if (f == NULL) {
             printf(RED "No deleted vehicles history file found!\n" RESET);
         } else {
@@ -278,31 +278,30 @@ void listVehicles(ParkingLot *p) {
                 printf(RESET); 
             }
         }
+    }
 
-        float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
-        if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
-        printf(LINE "------------------------------------------------------------------------------\n");
-        if (ratio < 80) 
-        {
-            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-            printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
-        }
-        else if (ratio < 100) 
-        {
-            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-            printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
-        }
-        else 
-        {
-            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-            printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
-        }
-        }
+    printf(LINE "----------------------------------------------------------------------\n");
     
+    float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
+    if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
+    printf(LINE "------------------------------------------------------------------------------\n");
+    if (ratio < 80) 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
+    }
+    else if (ratio < 100) 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
+    }
+    else 
+    {
+        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+        printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
+    }
 }
-
-void searchVehicle(ParkingLot *p) 
-{
+void searchVehicle(ParkingLot *p) {
     char key[15];
     int found_count = 0;
 
@@ -355,9 +354,9 @@ void searchVehicle(ParkingLot *p)
                    timeStr);
         }
     }
-    if (found_count == 0) 
-    {
-        printf(RED "No vehicle found matching '%s'.\n\n" RESET, key);
+
+    if (found_count == 0) {
+        printf(RED "No vehicle found matching '%s'.\n" RESET, key);
     }
 }
 

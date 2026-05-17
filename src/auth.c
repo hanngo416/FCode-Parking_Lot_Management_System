@@ -37,7 +37,8 @@ int login(Account accounts[], int accountCount) {
 
    
     while (1) {
-        getString("Enter password: ", password, sizeof(password));
+        printf("Enter password: ");
+        inputPassword(password, sizeof(password));
 
         if (strcmp(password, accounts[index].password) == 0) {
             printf(GREEN "Login successfully!\n" RESET);
@@ -50,9 +51,9 @@ int login(Account accounts[], int accountCount) {
 
 void printMenuByRole(int role) {
  
-    printf(LINE "\n============================================================================\n" RESET);
-    printf(TITLE "[                            PARKING LOT MANAGEMENT                        ]" "\n" RESET);
-    printf(LINE "============================================================================\n"  RESET);
+    printf("╔════════════════════════════════════════╗\n");
+    printf("║        PARKING LOT MANAGEMENT          ║\n");
+    printf("╚════════════════════════════════════════╝\n");
 
     printf("1. Check in a vehicle\n");
     printf("2. Check out a vehicle\n");
@@ -84,7 +85,8 @@ void updateOwnAccount(Account accounts[], int accountCount, int currentIndex) {
     printf("Current account: %s\n", accounts[currentIndex].username);
 
     while (1) {
-        getString("Enter new password: ", newPassword, sizeof(newPassword));
+        printf("Enter new password: ");
+        inputPassword(newPassword, sizeof(newPassword));
         if (isValidPassword(newPassword)) break;
     }
 
@@ -134,7 +136,8 @@ void createStaffAccount(Account accounts[], int *accountCount) {
 
     printf(TITLE "\n============================ CREATE STAFF ACCOUNT ===========================\n" RESET);
     while (1) {
-        getString("Enter password: ", password, sizeof(password));
+        printf("Enter password: ");
+        inputPassword(password, sizeof(password));
         if (isValidPassword(password)) break;
     }
 
@@ -207,6 +210,7 @@ void listAccountsNPass(Account accounts[], int accountCount) {
         printf(LINE "-----------------------------------------------------------------------------\n" RESET);
     }
 }
+
 
 void saveAccounts(Account accounts[], int accountCount) {
 

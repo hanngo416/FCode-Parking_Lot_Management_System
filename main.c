@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include "include/types.h"
 #include "include/parking.h"
 #include "include/billing.h"
@@ -7,7 +9,9 @@
 #include "include/utils.h"
 #include "include/auth.h"
 
+
 int main() {
+    system("chcp 65001 > nul"); 
     ParkingLot parkingLot;
     Account accounts[MAX_ACCOUNTS];
 
@@ -29,7 +33,7 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf(YELLOW "\n\nUser: %s | Role: %s" RESET,
+        printf(YELLOW "\n\n      User: %s | Role: %s" RESET "\n",
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 
