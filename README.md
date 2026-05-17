@@ -69,7 +69,7 @@ After compiling, you can execute the compiled binary directly:
 
 Upon fresh execution, the database automatically initializes a superuser admin account:
 *   **Username**: `admin`
-*   **Password**: `Admin123`
+*   **Password**: `Admin1234`
 
 ---
 
