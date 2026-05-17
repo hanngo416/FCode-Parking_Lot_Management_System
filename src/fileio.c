@@ -73,7 +73,7 @@ void saveData(ParkingLot *p, const char *actionMsg) {
 
     fclose(fp);
 
-    printf("[System Sync] %s - Total: %d records saved to %s\n", actionMsg, p->count, DATA_FILE);
+    
 }
 
 void logDeletedVehicle(const Vehicle *v) {

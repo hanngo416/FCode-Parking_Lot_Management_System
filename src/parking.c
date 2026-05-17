@@ -186,7 +186,7 @@ void listVehicles(ParkingLot *p) {
     }
     printf(LINE "------------------------------------------------------------------------------\n");
     if (choice == 4) {
-        FILE *f = fopen("deleted_vehicles.dat", "r");
+        FILE *f = fopen("data/deleted_vehicles.dat", "r");
         if (f == NULL) {
             printf(RED "No deleted vehicles history file found!\n" RESET);
         } else {
@@ -194,11 +194,11 @@ void listVehicles(ParkingLot *p) {
             while (fgets(line, sizeof(line), f)) {
                 char plate[15];
                 int type, status;
-                time_t entryTime;
+                long entryTime;
                 float fee;
-                time_t outTime;
+                long outTime;
 
-                if (sscanf(line, "%[^|]|%d|%ld|%d|%f|%ld", plate, &type, &entryTime, &status, &fee, &outTime) == 6) {
+                if (sscanf(line, "%[^|]|%d|%ld|%ld|%f|%d", plate, &type, &entryTime, &outTime, &fee, &status) == 6) {
                     count_in_yard++;
 
                     const char *typeStr;
@@ -208,7 +208,8 @@ void listVehicles(ParkingLot *p) {
                     else                   typeStr = "Other";
 
                     char timeStr[26];
-                    char *rawTime = ctime(&entryTime);
+                    time_t tempTime = (time_t)entryTime;
+                    char *rawTime = ctime(&tempTime);
                     if (rawTime != NULL) {
                         strncpy(timeStr, rawTime, 24);
                         timeStr[24] = '\0';
