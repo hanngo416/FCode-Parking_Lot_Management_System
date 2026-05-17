@@ -40,11 +40,11 @@ void addVehicle(ParkingLot *p) {
 
     printf(LINE "\n===================== " TITLE "ADD VEHICLE" RESET LINE " =====================" RESET "\n");
 
-    getString("Enter license plate: ", plate, sizeof(plate));
+    getString(YELLOW "Enter license plate: " RESET, plate, sizeof(plate));
     toUpperCase(plate);
 
     if (!isValidLicensePlate(plate)) {
-        printf("Invalid license plate! Format: SSCC-SSSSS (S: number, C: letter)\n");
+        printf(YELLOW "Invalid license plate! Format: SSCC-SSSSS (S: number, C: letter)\n" RESET);
         return;
     }
 
@@ -58,14 +58,14 @@ void addVehicle(ParkingLot *p) {
     int hour = localTime->tm_hour;
 
     if (hour >= 23 || hour < 3) {
-        printf("Parking lot is closed from 23:00 to 03:00!\n");
+        printf(YELLOW "Parking lot is closed from 23:00 to 03:00!\n" RESET);
         return;
     }
 
     type = getInt(
-        "Vehicle type (0: motorbike, 1: car, 2: bus): ",
+    YELLOW    "Vehicle type (0: motorbike, 1: car, 2: bus): ",
         "Vehicle type must be 0, 1, or 2.",
-        "Please enter a valid number.",
+        "Please enter a valid number." RESET,
         0, 2
     );
 
@@ -88,10 +88,10 @@ void addVehicle(ParkingLot *p) {
 void removeVehicle(ParkingLot *p) {
     char plate[20];
 
-    printf("\n--- CHECK OUT VEHICLE ---\n");
-    printf("\nCurrent vehicles in yard:\n");
+    printf(TITLE "\n------------------------------ CHECK OUT VEHICLE -----------------------------\n" RESET);
+    printf(YELLOW"\nCurrent vehicles in yard:\n" RESET);
     printf("\033[1;36m%-5s | %-15s | %-15s\033[0m\n", "No", "LICENSE PLATE", "VEHICLE TYPE");
-    printf("--------------------------------------------------\n");
+    printf(LINE "--------------------------------------------------\n" RESET);
 
     int count = 0;
     for (int i = 0; i < p->count; i++) {
@@ -107,13 +107,13 @@ void removeVehicle(ParkingLot *p) {
         }
     }
 
-    printf("--------------------------------------------------\n");    
+    printf(LINE "--------------------------------------------------\n" RESET);    
     if (p->count == 0) {
-         printf("No vehicles in parking lot.\n");
+         printf(RED "No vehicles in parking lot.\n" RESET);
          return;
     }
 
-    getString("Enter license plate: ", plate, sizeof(plate));
+    getString(YELLOW "Enter license plate: " RESET, plate, sizeof(plate));
     toUpperCase(plate);
 
     if (!isValidLicensePlate(plate)) {

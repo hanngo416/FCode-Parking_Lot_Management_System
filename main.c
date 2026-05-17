@@ -33,7 +33,7 @@ int main() {
 
         int role = accounts[currentIndex].role;
 
-        printf(YELLOW "\n\n      User: %s | Role: %s" RESET "\n",
+        printf(YELLOW "\n\n                         User: %s | Role: %s" RESET "\n",
                accounts[currentIndex].username,
                role == ROLE_ADMIN ? "Admin" : "Staff");
 

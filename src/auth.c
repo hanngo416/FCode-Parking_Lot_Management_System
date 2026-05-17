@@ -51,28 +51,27 @@ int login(Account accounts[], int accountCount) {
 
 void printMenuByRole(int role) {
  
-    printf("╔════════════════════════════════════════╗\n");
-    printf("║        PARKING LOT MANAGEMENT          ║\n");
-    printf("╚════════════════════════════════════════╝\n");
-
-    printf("1. Check in a vehicle\n");
-    printf("2. Check out a vehicle\n");
-    printf("3. View parked vehicles\n");
-    printf("4. Search a vehicle\n");
-    printf("5. Change my password\n");
-    printf("6. Save data\n");
+    printf(TITLE  "╔═══════════════════════════════════════════════════════════════════════════╗\n");
+    printf(YELLOW "║                          PARKING LOT MANAGEMENT                           ║\n");
+    printf(TITLE  "╚═══════════════════════════════════════════════════════════════════════════╝\n" RESET);
+    printf(TITLE "1. " RESET "Check in a vehicle\n");
+    printf(TITLE "2. " RESET "Check out a vehicle\n");
+    printf(TITLE "3. " RESET "View parked vehicles\n");
+    printf(TITLE "4. " RESET "Search a vehicle\n");
+    printf(TITLE "5. " RESET "Change my password\n");
+    printf(TITLE "6. " RESET "Save data\n");
 
     if (role == ROLE_ADMIN) {
-    printf("7. View daily report\n");
-    printf("8. Edit price list by vehicle type\n");
-    printf("9. Export revenue report (.txt)\n");
-    printf("10. Create staff account\n");
-    printf("11. Change user's role\n");
-    printf("12. View account list\n");
-    printf("13. Delete vehicle permanently\n");
+    printf(TITLE "7. " RESET "View daily report\n");
+    printf(TITLE "8. " RESET "Edit price list by vehicle type\n");
+    printf(TITLE "9. " RESET "Export revenue report (.txt)\n");
+    printf(TITLE "10. " RESET "Create staff account\n");
+    printf(TITLE "11. " RESET "Change user's role\n");
+    printf(TITLE "12. " RESET "View account list\n");
+    printf(TITLE "13. " RESET "Delete vehicle permanently\n");
     }
 
-    printf("0. Exit\n");
+    printf(TITLE "0. " RESET "Exit\n");
 
     printf(LINE "-----------------------------------------------------------------------------\n" RESET);
 }
