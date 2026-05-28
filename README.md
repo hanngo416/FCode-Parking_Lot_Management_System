@@ -60,7 +60,7 @@ gcc main.c src/billing.c src/parking.c src/utils.c src/auth.c src/fileio.c src/r
 After compiling, you can execute the compiled binary directly:
 
 ```bash
-.\Parking_Lot_Management_System.exe
+./Parking_Lot_Management_System.exe
 ```
 
 ---
